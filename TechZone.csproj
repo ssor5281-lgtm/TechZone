@@ -1,0 +1,231 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <ApplicationIcon>techzone.ico</ApplicationIcon>
+        <NoWarn>$(NoWarn);NU1701</NoWarn>
+    </PropertyGroup>
+
+    <Target Name="KillRunningTechZone" BeforeTargets="Build">
+        <Exec Command="taskkill /F /IM TechZone.exe 2&gt;nul || exit 0" />
+    </Target>
+
+    <ItemGroup>
+        <Content Include="techzone.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Src\Data\Database\*.sql">
+            <Link>Database\%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\MainForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\RegisterForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\DashboardView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\ProductView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\DataTable.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\CategoryView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\DataTableToolbar.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\DataTablePagination.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\TzCombo.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Modifier\AddProductForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Modifier\EditProductForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddCategoryForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Edit\EditCategoryForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\UserView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddUserForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Edit\EditUserForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\CustomerView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddCustomerForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Edit\EditCustomerForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\InventoryView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\CardState.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Controls\TzDropdownButton.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Edit\EditInventoryForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Delete\DeleteCategoryForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\PointOfSaleView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\SaleView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddSaleForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddQuickSaleForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Create\AddOrderForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\OrderView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Dialog\ConfirmPaymentForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\SaleHistoryView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\DashboardView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\ProductCard.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\ProductGridView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Components\Topbar.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Edit\UserProfile.cs">
+            <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Views\SettingView.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Dialog\ImportDatabaseForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentTransitions" Version="2.0.3" />
+        <PackageReference Include="Krypton.Toolkit.LTS" Version="85.25.6.174" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.5" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+        <PackageReference Include="SVG" Version="3.4.8" />
+        <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Src\Resources\SVG\*.svg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Asset\Products\068ee5ba268d4e83aeae9d74e2d4c826.png" />
+        <None Remove="Asset\Products\product_28.png" />
+        <None Remove="Asset\Products\product_29.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Asset\Products\" />
+        <Folder Include="Asset\Users\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Remove="app.manifest" />
+    </ItemGroup>
+
+</Project>

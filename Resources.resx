@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PasswordHide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\hide_pw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PasswordShow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\show_pw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="buttonUi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\buttonUi.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\splash.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="techzone_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\techzone_logo.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="logutButtonUi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\logoutButtonUi.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="admin_badge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\admin_badge.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="staff_badge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\staff_badge.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="loginBgTechZone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\loginBgTechZone.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="RegBgTechZone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\RegBgTechZone.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="buttonUi200" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\buttonUi200.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\add.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="searchContainerpng" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\searchContainerpng.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="cardState" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\cardState.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="dropdown_frame" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\dropdown_frame.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\boxicons_edit.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_arrow_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_arrow_down.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_delete_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_view.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_plus.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_fastshop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_fastshop.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_history" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_history.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_add_customer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_add_customer.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_arrow.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_remove_cart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_remove_cart.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_plus_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_plus_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_minus_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_minus_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_order_cancel_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_order_cancel_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_cart_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_cart_plus_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_table.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_grid_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_grid_view.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_table_view_switch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_table_view_switch.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_product_add_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_product_add_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_add_category_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_add_category_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_setting.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_user_profile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_user_profile.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_logout_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\icon_logout_red.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="techzone_logo_royalblue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\techzone_logo_royalblue.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="SplashBg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\SplashBg.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="splashscreen_background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Src\Resources\splashscreen_background.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="techzone_logo_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\techzone_logo_white.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="ic_baseline_account_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ic_baseline_account_circle.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="icon_myprofile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon_myprofile.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_myprofile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_myprofile.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_theme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_theme.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_inventory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_inventory.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_database" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_database.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_info.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+  <data name="setting_sale" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\setting_sale.png;System.Drawing.Bitmap, System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51</value>
+  </data>
+</root>

@@ -1,0 +1,5 @@
+﻿IF DB_ID('TechZoneDb') IS NULL
+BEGIN
+    CREATE DATABASE TechZoneDb;
+END
+GO
