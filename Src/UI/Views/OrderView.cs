@@ -429,7 +429,7 @@ Are you sure you want to cancel this order?",
         LoadOrders();
     }
 
-    private static void ShowOrderDetails(
+    private void ShowOrderDetails(
         Sale order,
         OrderRow row)
     {
@@ -438,33 +438,14 @@ Are you sure you want to cancel this order?",
                 ? $"ORD-{number:D5}"
                 : "-";
 
-        string status =
-            order.Status switch
-            {
-                SaleStatus.Pending => "Pending",
-                SaleStatus.Cancelled => "Canceled",
-                SaleStatus.Completed => "Completed",
-                _ => "-"
-            };
+        using var form = new OrderDetailForm(
+            order,
+            orderCode,
+            row.Customer,
+            row.Staff,
+            row.ItemCount);
 
-        string pickupDate =
-            order.PickupDate?.ToString("dd MMM yyyy") ?? "-";
-
-        MessageBox.Show(
-            $@"Order: {orderCode}
-Customer: {row.Customer}
-Staff: {row.Staff}
-Items: {row.Items}
-Status: {status}
-
-Subtotal: ${order.SubtotalAmount:N2}
-Discount: {order.DiscountPercent:N2}%
-Discount Amount: ${order.DiscountAmount:N2}
-Total: ${order.TotalAmount:N2}
-Pickup Date: {pickupDate}",
-            @"Order Details",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+        form.ShowDialog(this);
     }
 
     private void newOrderButton_Click(object? sender, EventArgs e)

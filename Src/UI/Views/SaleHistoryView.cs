@@ -2,6 +2,7 @@
 using TechZone.Core.Models;
 using TechZone.Data.Repositories;
 using TechZone.UI.Components;
+using TechZone.UI.Forms.Dialog;
 
 namespace TechZone.UI.Views;
 
@@ -499,20 +500,13 @@ public partial class SaleHistoryView : UserControl
         Invoice invoice,
         InvoiceRow row)
     {
-        MessageBox.Show(
-            $@"Invoice: {invoice.InvoiceCode}
-Sale Type: {invoice.DisplaySaleType}
-Customer: {row.Customer}
-Staff: {row.Staff}
-Items: {row.Items}
-Date: {invoice.InvoiceDate:dd MMM yyyy}
+        using var form = new InvoiceDetailForm(
+            invoice,
+            row.Customer,
+            row.Staff,
+            row.ItemCount);
 
-Subtotal: ${invoice.SubtotalAmount:N2}
-Discount: ${invoice.DiscountAmount:N2}
-Total: ${invoice.TotalAmount:N2}",
-            @"Invoice Details",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+        form.ShowDialog();
     }
 
     private sealed class InvoiceRow

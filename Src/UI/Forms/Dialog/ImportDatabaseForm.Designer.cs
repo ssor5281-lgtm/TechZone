@@ -1,16 +1,17 @@
 ﻿#nullable enable
+
 namespace TechZone.UI.Forms.Dialog;
 
 partial class ImportDatabaseForm
 {
     private System.ComponentModel.IContainer? components = null;
 
-    private Label titleLabel;
-    private Label descriptionLabel;
-    private Label backupLabel;
-    private ComboBox backupComboBox;
-    private Button importButton;
-    private Button cancelButton;
+    private Label titleLabel = null!;
+    private Label descriptionLabel = null!;
+    private Label backupLabel = null!;
+    private ComboBox backupComboBox = null!;
+    private Button importButton = null!;
+    private Button cancelButton = null!;
 
     protected override void Dispose(bool disposing)
     {

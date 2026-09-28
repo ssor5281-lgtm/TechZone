@@ -55,9 +55,10 @@ public partial class MainForm : Form
 
     public void OpenSettings()
     {
-        ShowPage(
-            "Setting",
-            navSetting);
+        LoadView(
+            new SettingView(),
+            navSetting,
+            "Setting");
     }
 
     private void EnableSmoothRendering()
@@ -386,9 +387,7 @@ public partial class MainForm : Form
                 : ExpandedNavWidth;
 
         navItem.Left =
-            compact
-                ? 12
-                : 12;
+            12;
 
         icon.Left =
             compact
@@ -746,20 +745,37 @@ public partial class MainForm : Form
 
     public void OpenOrderView()
     {
-        LoadView(
-            new PointOfSaleView("Order"),
-            navSale,
-            "Order",
-            "Point of Sale");
+        if (_viewCache.TryGetValue(
+                typeof(PointOfSaleView).FullName!,
+                out UserControl? view)
+            && view is PointOfSaleView posView)
+        {
+            SwitchView(
+                posView,
+                navSale);
+
+            posView.OpenPage("Order");
+            SetTopbar(
+                "Point of Sale",
+                "Order");
+        }
     }
 
     public void OpenInvoiceHistoryView()
     {
-        LoadView(
-            new PointOfSaleView(
-                "Invoice History"),
-            navSale,
-            "Invoice History",
-            "Point of Sale");
+        if (_viewCache.TryGetValue(
+                typeof(PointOfSaleView).FullName!,
+                out UserControl? view)
+            && view is PointOfSaleView posView)
+        {
+            SwitchView(
+                posView,
+                navSale);
+
+            posView.OpenPage("Invoice History");
+            SetTopbar(
+                "Point of Sale",
+                "Invoice History");
+        }
     }
 }

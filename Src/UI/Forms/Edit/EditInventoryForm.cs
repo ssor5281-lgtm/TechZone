@@ -14,53 +14,58 @@ public partial class EditInventoryForm : Form
 
         productValueLabel.Text = inventory.ProductName;
         Stock = inventory.Stock;
-        stockTextBox.Text = Stock.ToString();
+        stockValueLabel.Text = Stock.ToString();
 
         decreaseButton.Click += DecreaseButton_Click;
         increaseButton.Click += IncreaseButton_Click;
         saveButton.Click += SaveButton_Click;
-        stockTextBox.KeyPress += StockTextBox_KeyPress;
     }
 
-    private void DecreaseButton_Click(object? sender, EventArgs e)
+    private void DecreaseButton_Click(
+        object? sender,
+        EventArgs e)
     {
-        if (int.TryParse(stockTextBox.Text, out int stock))
-            stockTextBox.Text = Math.Max(0, stock - 1).ToString();
-
-        stockTextBox.Focus();
-        stockTextBox.SelectAll();
+        if (int.TryParse(
+                stockValueLabel.Text,
+                out int stock))
+        {
+            Stock = Math.Max(0, stock - 1);
+            stockValueLabel.Text = Stock.ToString();
+        }
     }
 
-    private void IncreaseButton_Click(object? sender, EventArgs e)
+    private void IncreaseButton_Click(
+        object? sender,
+        EventArgs e)
     {
-        if (int.TryParse(stockTextBox.Text, out int stock))
-            stockTextBox.Text = (stock + 1).ToString();
-
-        stockTextBox.Focus();
-        stockTextBox.SelectAll();
+        if (int.TryParse(
+                stockValueLabel.Text,
+                out int stock))
+        {
+            Stock = stock + 1;
+            stockValueLabel.Text = Stock.ToString();
+        }
     }
 
-    private void StockTextBox_KeyPress(object? sender, KeyPressEventArgs e)
+    private void SaveButton_Click(
+        object? sender,
+        EventArgs e)
     {
-        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            e.Handled = true;
-    }
-
-    private void SaveButton_Click(object? sender, EventArgs e)
-    {
-        if (!int.TryParse(stockTextBox.Text, out int stock))
+        if (!int.TryParse(
+                stockValueLabel.Text,
+                out int stock))
         {
             MessageBox.Show(
-                @"Please enter a valid stock number.",
+                @"Invalid stock value.",
                 @"Invalid Stock",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
 
-            stockTextBox.Focus();
             return;
         }
 
         Stock = Math.Max(0, stock);
+
         DialogResult = DialogResult.OK;
         Close();
     }

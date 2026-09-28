@@ -189,6 +189,14 @@
         <Compile Update="Src\UI\Forms\Dialog\ImportDatabaseForm.cs">
           <SubType>Form</SubType>
         </Compile>
+
+        <Compile Update="Src\UI\Forms\Dialog\OrderDetailForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+
+        <Compile Update="Src\UI\Forms\Dialog\InvoiceDetailForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

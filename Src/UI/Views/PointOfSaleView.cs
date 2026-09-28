@@ -45,6 +45,24 @@ public partial class PointOfSaleView : UserControl
                 _initialPage);
         }
     }
+    
+    public void OpenPage(string page)
+    {
+        switch (page)
+        {
+            case "Order":
+                orderButton.PerformClick();
+                break;
+
+            case "Invoice History":
+                invoiceButton.PerformClick();
+                break;
+
+            default:
+                saleButton.PerformClick();
+                break;
+        }
+    }
 
     private void ConfigureNavigationEffects()
     {
@@ -63,13 +81,8 @@ public partial class PointOfSaleView : UserControl
             group: "sale-bg"
         );
 
-        button.TzEffect(
-            nameof(Control.ForeColor),
-            Color.FromArgb(71, 85, 105),
-            Color.FromArgb(30, 41, 59),
-            Color.FromArgb(37, 99, 235),
-            group: "sale-text"
-        );
+        button.ForeColor =
+            Color.FromArgb(71, 85, 105);
     }
 
     private void ConfigureNavigation()

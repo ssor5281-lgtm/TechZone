@@ -8,12 +8,10 @@ partial class EditInventoryForm
 
     private Label productLabel;
     private Label productValueLabel;
-
     private Label stockLabel;
-    private Button decreaseButton;
-    private System.Windows.Forms.TextBox stockTextBox;
-    private System.Windows.Forms.Button increaseButton;
-
+    private System.Windows.Forms.Button decreaseButton;
+    private System.Windows.Forms.TextBox stockValueLabel;
+    private Button increaseButton;
     private Button cancelButton;
     private Button saveButton;
 
@@ -35,17 +33,18 @@ partial class EditInventoryForm
         productValueLabel = new System.Windows.Forms.Label();
         stockLabel = new System.Windows.Forms.Label();
         decreaseButton = new System.Windows.Forms.Button();
-        stockTextBox = new System.Windows.Forms.TextBox();
         increaseButton = new System.Windows.Forms.Button();
         cancelButton = new System.Windows.Forms.Button();
         saveButton = new System.Windows.Forms.Button();
+        stockValueLabel = new System.Windows.Forms.TextBox();
         SuspendLayout();
         // 
         // productLabel
         // 
         productLabel.AutoSize = true;
         productLabel.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        productLabel.Location = new System.Drawing.Point(24, 24);
+        productLabel.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)100)), ((int)((byte)116)), ((int)((byte)139)));
+        productLabel.Location = new System.Drawing.Point(28, 24);
         productLabel.Name = "productLabel";
         productLabel.Size = new System.Drawing.Size(59, 18);
         productLabel.TabIndex = 0;
@@ -53,88 +52,107 @@ partial class EditInventoryForm
         // 
         // productValueLabel
         // 
-        productValueLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-        productValueLabel.Font = new System.Drawing.Font("Bahnschrift", 10.2F);
-        productValueLabel.Location = new System.Drawing.Point(24, 46);
+        productValueLabel.AutoEllipsis = true;
+        productValueLabel.Font = new System.Drawing.Font("Bahnschrift", 11F, System.Drawing.FontStyle.Bold);
+        productValueLabel.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)30)), ((int)((byte)41)), ((int)((byte)59)));
+        productValueLabel.Location = new System.Drawing.Point(28, 46);
         productValueLabel.Name = "productValueLabel";
-        productValueLabel.Size = new System.Drawing.Size(452, 30);
+        productValueLabel.Size = new System.Drawing.Size(494, 38);
         productValueLabel.TabIndex = 1;
-        productValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        productValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // stockLabel
         // 
-        stockLabel.AutoSize = true;
         stockLabel.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        stockLabel.Location = new System.Drawing.Point(24, 94);
+        stockLabel.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)100)), ((int)((byte)116)), ((int)((byte)139)));
+        stockLabel.Location = new System.Drawing.Point(28, 101);
         stockLabel.Name = "stockLabel";
-        stockLabel.Size = new System.Drawing.Size(45, 18);
+        stockLabel.Size = new System.Drawing.Size(494, 18);
         stockLabel.TabIndex = 2;
         stockLabel.Text = "Stock";
+        stockLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // decreaseButton
         // 
-        decreaseButton.Font = new System.Drawing.Font("Bahnschrift", 11F);
-        decreaseButton.Location = new System.Drawing.Point(24, 116);
+        decreaseButton.BackColor = System.Drawing.Color.FromArgb(((int)((byte)239)), ((int)((byte)246)), ((int)((byte)255)));
+        decreaseButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)191)), ((int)((byte)219)), ((int)((byte)254)));
+        decreaseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        decreaseButton.Font = new System.Drawing.Font("Bahnschrift", 13F, System.Drawing.FontStyle.Bold);
+        decreaseButton.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)37)), ((int)((byte)99)), ((int)((byte)235)));
+        decreaseButton.Location = new System.Drawing.Point(190, 128);
         decreaseButton.Name = "decreaseButton";
-        decreaseButton.Size = new System.Drawing.Size(45, 32);
-        decreaseButton.TabIndex = 0;
-        decreaseButton.Text = "−";
-        decreaseButton.UseVisualStyleBackColor = true;
-        // 
-        // stockTextBox
-        // 
-        stockTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-        stockTextBox.Font = new System.Drawing.Font("Bahnschrift", 10.2F);
-        stockTextBox.ForeColor = System.Drawing.SystemColors.InfoText;
-        stockTextBox.Location = new System.Drawing.Point(75, 118);
-        stockTextBox.Name = "stockTextBox";
-        stockTextBox.Size = new System.Drawing.Size(70, 28);
-        stockTextBox.TabIndex = 1;
-        stockTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+        decreaseButton.Size = new System.Drawing.Size(48, 38);
+        decreaseButton.TabIndex = 3;
+        decreaseButton.Text = "-";
+        decreaseButton.UseVisualStyleBackColor = false;
         // 
         // increaseButton
         // 
-        increaseButton.Font = new System.Drawing.Font("Bahnschrift", 11F);
-        increaseButton.Location = new System.Drawing.Point(150, 115);
+        increaseButton.BackColor = System.Drawing.Color.FromArgb(((int)((byte)239)), ((int)((byte)246)), ((int)((byte)255)));
+        increaseButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)191)), ((int)((byte)219)), ((int)((byte)254)));
+        increaseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        increaseButton.Font = new System.Drawing.Font("Bahnschrift", 13F, System.Drawing.FontStyle.Bold);
+        increaseButton.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)37)), ((int)((byte)99)), ((int)((byte)235)));
+        increaseButton.Location = new System.Drawing.Point(330, 128);
         increaseButton.Name = "increaseButton";
-        increaseButton.Size = new System.Drawing.Size(45, 32);
-        increaseButton.TabIndex = 2;
+        increaseButton.Size = new System.Drawing.Size(48, 38);
+        increaseButton.TabIndex = 5;
         increaseButton.Text = "+";
-        increaseButton.UseVisualStyleBackColor = true;
+        increaseButton.UseVisualStyleBackColor = false;
         // 
         // cancelButton
         // 
+        cancelButton.BackColor = System.Drawing.Color.White;
         cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        cancelButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)203)), ((int)((byte)213)), ((int)((byte)225)));
+        cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         cancelButton.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        cancelButton.Location = new System.Drawing.Point(282, 196);
+        cancelButton.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)71)), ((int)((byte)85)), ((int)((byte)105)));
+        cancelButton.Location = new System.Drawing.Point(318, 216);
         cancelButton.Name = "cancelButton";
-        cancelButton.Size = new System.Drawing.Size(100, 30);
-        cancelButton.TabIndex = 3;
+        cancelButton.Size = new System.Drawing.Size(100, 34);
+        cancelButton.TabIndex = 6;
         cancelButton.Text = "Cancel";
-        cancelButton.UseVisualStyleBackColor = true;
+        cancelButton.UseVisualStyleBackColor = false;
         // 
         // saveButton
         // 
+        saveButton.BackColor = System.Drawing.Color.FromArgb(((int)((byte)37)), ((int)((byte)99)), ((int)((byte)235)));
+        saveButton.FlatAppearance.BorderSize = 0;
+        saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         saveButton.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        saveButton.Location = new System.Drawing.Point(388, 196);
+        saveButton.ForeColor = System.Drawing.Color.White;
+        saveButton.Location = new System.Drawing.Point(424, 216);
         saveButton.Name = "saveButton";
-        saveButton.Size = new System.Drawing.Size(100, 30);
-        saveButton.TabIndex = 4;
+        saveButton.Size = new System.Drawing.Size(100, 34);
+        saveButton.TabIndex = 7;
         saveButton.Text = "Save";
-        saveButton.UseVisualStyleBackColor = true;
+        saveButton.UseVisualStyleBackColor = false;
+        // 
+        // stockValueLabel
+        // 
+        stockValueLabel.BackColor = System.Drawing.SystemColors.Window;
+        stockValueLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+        stockValueLabel.Font = new System.Drawing.Font("Bahnschrift", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)0));
+        stockValueLabel.Location = new System.Drawing.Point(245, 129);
+        stockValueLabel.Name = "stockValueLabel";
+        stockValueLabel.Size = new System.Drawing.Size(79, 37);
+        stockValueLabel.TabIndex = 8;
+        stockValueLabel.Text = "0";
+        stockValueLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
         // 
         // EditInventoryForm
         // 
         AcceptButton = saveButton;
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-        BackColor = System.Drawing.SystemColors.Window;
+        BackColor = System.Drawing.Color.White;
         CancelButton = cancelButton;
-        ClientSize = new System.Drawing.Size(500, 238);
+        ClientSize = new System.Drawing.Size(550, 260);
+        Controls.Add(stockValueLabel);
         Controls.Add(productLabel);
         Controls.Add(productValueLabel);
         Controls.Add(stockLabel);
         Controls.Add(decreaseButton);
-        Controls.Add(stockTextBox);
         Controls.Add(increaseButton);
         Controls.Add(cancelButton);
         Controls.Add(saveButton);
@@ -148,4 +166,5 @@ partial class EditInventoryForm
         ResumeLayout(false);
         PerformLayout();
     }
+    
 }
