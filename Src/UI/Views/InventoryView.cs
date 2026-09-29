@@ -1,6 +1,8 @@
-﻿using TechZone.Core.Models;
+﻿using TechZone.Core.Enums;
+using TechZone.Core.Models;
 using TechZone.Core.Settings;
 using TechZone.Data.Repositories;
+using TechZone.Data.Services;
 using TechZone.UI.Components;
 using TechZone.UI.Forms;
 using TechZone.UI.Forms.Edit;
@@ -9,6 +11,7 @@ namespace TechZone.UI.Views;
 
 public partial class InventoryView : UserControl
 {
+    private bool _isStaff = AuthService.CurrentUser?.Role == Role.Staff;
     private readonly InventoryRepository _inventoryRepo = new();
     private List<Inventory> _inventories = [];
     private List<Inventory> _filteredInventories = [];
@@ -26,7 +29,7 @@ public partial class InventoryView : UserControl
 
         Load += (_, _) => LoadInventory();
     }
-
+        
     private void LoadInventory()
     {
         _inventories = _inventoryRepo.GetAll().ToList();
@@ -198,12 +201,14 @@ public partial class InventoryView : UserControl
             "LastUpdated",
             "Last Updated",
             "LastUpdated");
-
-        dataTableInventory.AddActionColumn(
-            showEdit: true,
-            showDelete: false,
-            showView: false);
-
+        
+        if (!_isStaff)
+        {
+            dataTableInventory.AddActionColumn(
+                showEdit: true,
+                showDelete: false,
+                showView: false);
+        }
         dataTableInventory.SetFixedWidth(
             "No",
             70,

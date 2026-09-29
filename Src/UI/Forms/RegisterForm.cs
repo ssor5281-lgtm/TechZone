@@ -131,7 +131,7 @@ public partial class RegisterForm : Form
             _authService.Register(
                 username,
                 password,
-                UserRole.Admin
+                Role.Admin
             );
 
             var user = _userRepo.GetByUsername(username);

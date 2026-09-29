@@ -53,7 +53,10 @@ public static class TzEffects
             Control = control,
             PropertyName = propertyName,
             DefaultValue = defaultValue,
-            ActiveValue = () => activeValue,
+            ActiveValue =
+                group == "navigation"
+                    ? () => TzColors.PrimaryActive
+                    : () => activeValue,
             Animate = animate,
             Duration = duration,
             Group = group

@@ -1,8 +1,8 @@
-﻿
-using System.Reflection;
+﻿using System.Reflection;
 using TechZone.Core.Enums;
 using TechZone.Core.Models;
 using TechZone.Core.Settings;
+using TechZone.Data.Services;
 using TechZone.UI.Controls;
 using TechZone.UI.Effects;
 using TechZone.UI.Theme;
@@ -15,7 +15,7 @@ public partial class MainForm : Form
     public User CurrentUser => _currentUser;
 
     private readonly User _currentUser;
-    
+
     private const int ExpandedSidebarWidth = 240;
     private const int CompactSidebarWidth = 72;
 
@@ -27,10 +27,12 @@ public partial class MainForm : Form
     public MainForm(User currentUser)
     {
         InitializeComponent();
+
         Icon = new Icon(
             Path.Combine(
                 AppContext.BaseDirectory,
                 "techzone.ico"));
+
         EnableSmoothRendering();
 
         _currentUser = currentUser;
@@ -42,7 +44,7 @@ public partial class MainForm : Form
         topbar.SetUser(_currentUser);
 
         ConfigureRoleAccess();
-        
+
         ConfigureNavigationEffects();
         ConfigureNavigation();
         ApplySidebarStyle();
@@ -116,50 +118,40 @@ public partial class MainForm : Form
     {
         var normal =
             TzColors.SidebarText;
-        var hover =
-            TzColors.SidebarHoverText;
 
         var active =
             TzColors.SidebarActiveText;
 
         navDashboardIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navProductIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navCategoryIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navInventoryIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navSaleIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navCustomerIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navUserIcon.PrepareColors(
             normal,
-            hover,
             active);
 
         navSettingIcon.PrepareColors(
             normal,
-            hover,
             active);
     }
 
@@ -193,10 +185,15 @@ public partial class MainForm : Form
 
         try
         {
-            logoPictureBox.BackgroundImage = TzColors.SidebarLogo;
-            logoLabel.ForeColor = TzColors.SidebarLogoText;
+            logoPictureBox.BackgroundImage =
+                TzColors.SidebarLogo;
+
+            logoLabel.ForeColor =
+                TzColors.SidebarLogoText;
+
             ConfigureNavigationIcons();
             PrepareNavigationIconColors();
+
             BackColor =
                 TzColors.Background;
 
@@ -211,30 +208,6 @@ public partial class MainForm : Form
 
             sidebarAdminLabel.ForeColor =
                 TzColors.SidebarTextMuted;
-
-            navDashboard.BackColor =
-                Color.Transparent;
-
-            navProduct.BackColor =
-                Color.Transparent;
-
-            navCategory.BackColor =
-                Color.Transparent;
-
-            navInventory.BackColor =
-                Color.Transparent;
-
-            navSale.BackColor =
-                Color.Transparent;
-
-            navCustomer.BackColor =
-                Color.Transparent;
-
-            navUser.BackColor =
-                Color.Transparent;
-
-            navSetting.BackColor =
-                Color.Transparent;
 
             navDashboardLabel.ForeColor =
                 TzColors.SidebarText;
@@ -283,103 +256,139 @@ public partial class MainForm : Form
             ResumeLayout(true);
         }
     }
-    
+
     public void ApplySidebarStyle()
-{
-    bool compact = AppSettings.CompactSidebar;
-
-    SuspendLayout();
-
-    try
     {
-        sidebarPanel.Width =
-            compact
-                ? CompactSidebarWidth
-                : ExpandedSidebarWidth;
+        bool compact =
+            AppSettings.CompactSidebar;
 
-        sidebarBorder.Location = new Point(
-            sidebarPanel.Width - sidebarBorder.Width,
-            0);
+        SuspendLayout();
 
-        sidebarBorder.Height = sidebarPanel.Height;
-
-        logoPanel.Width = sidebarPanel.Width;
-
-        if (compact)
+        try
         {
-            logoPictureBox.Size = new Size(40, 40);
-            logoPictureBox.Location = new Point(
-                (sidebarPanel.Width - logoPictureBox.Width) / 2,
-                15);
-            logoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            logoLabel.Visible = false;
+            sidebarPanel.Width =
+                compact
+                    ? CompactSidebarWidth
+                    : ExpandedSidebarWidth;
+
+            sidebarBorder.Location =
+                new Point(
+                    sidebarPanel.Width -
+                    sidebarBorder.Width,
+                    0);
+
+            sidebarBorder.Height =
+                sidebarPanel.Height;
+
+            logoPanel.Width =
+                sidebarPanel.Width;
+
+            if (compact)
+            {
+                logoPictureBox.Size =
+                    new Size(40, 40);
+
+                logoPictureBox.Location =
+                    new Point(
+                        (sidebarPanel.Width -
+                         logoPictureBox.Width) / 2,
+                        15);
+
+                logoPictureBox.SizeMode =
+                    PictureBoxSizeMode.Zoom;
+
+                logoLabel.Visible =
+                    false;
+            }
+            else
+            {
+                logoPictureBox.Location =
+                    new Point(12, 15);
+
+                logoPictureBox.Size =
+                    new Size(40, 40);
+
+                logoPictureBox.SizeMode =
+                    PictureBoxSizeMode.Zoom;
+
+                logoLabel.Visible =
+                    true;
+            }
+
+            ApplyNavigationLayout(
+                navDashboard,
+                navDashboardIcon,
+                navDashboardLabel);
+
+            ApplyNavigationLayout(
+                navProduct,
+                navProductIcon,
+                navProductLabel);
+
+            ApplyNavigationLayout(
+                navCategory,
+                navCategoryIcon,
+                navCategoryLabel);
+
+            ApplyNavigationLayout(
+                navInventory,
+                navInventoryIcon,
+                navInventoryLabel);
+
+            ApplyNavigationLayout(
+                navSale,
+                navSaleIcon,
+                navSaleLabel);
+
+            ApplyNavigationLayout(
+                navCustomer,
+                navCustomerIcon,
+                navCustomerLabel);
+
+            ApplyNavigationLayout(
+                navUser,
+                navUserIcon,
+                navUserLabel);
+
+            ApplyNavigationLayout(
+                navSetting,
+                navSettingIcon,
+                navSettingLabel);
+
+            bool canSeeHome =
+                _currentUser.Role == Role.Admin ||
+                _currentUser.Role == Role.Manager;
+
+            bool canSeeAdmin =
+                _currentUser.Role == Role.Admin ||
+                _currentUser.Role == Role.Manager;
+
+            sidebarHomeLabel.Visible =
+                !compact &&
+                canSeeHome;
+
+            sidebarManagementLabel.Visible =
+                !compact;
+
+            sidebarAdminLabel.Visible =
+                !compact &&
+                canSeeAdmin;
+
+            UpdateNavigationGroups();
         }
-        else
+        finally
         {
-            logoPictureBox.Location = new Point(12, 15);
-            logoPictureBox.Size = new Size(40, 40);
-            logoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            logoLabel.Visible = true;
+            ResumeLayout(true);
         }
-
-        ApplyNavigationLayout(
-            navDashboard,
-            navDashboardIcon,
-            navDashboardLabel);
-
-        ApplyNavigationLayout(
-            navProduct,
-            navProductIcon,
-            navProductLabel);
-
-        ApplyNavigationLayout(
-            navCategory,
-            navCategoryIcon,
-            navCategoryLabel);
-
-        ApplyNavigationLayout(
-            navInventory,
-            navInventoryIcon,
-            navInventoryLabel);
-
-        ApplyNavigationLayout(
-            navSale,
-            navSaleIcon,
-            navSaleLabel);
-
-        ApplyNavigationLayout(
-            navCustomer,
-            navCustomerIcon,
-            navCustomerLabel);
-
-        ApplyNavigationLayout(
-            navUser,
-            navUserIcon,
-            navUserLabel);
-
-        ApplyNavigationLayout(
-            navSetting,
-            navSettingIcon,
-            navSettingLabel);
-
-        sidebarHomeLabel.Visible = !compact;
-        sidebarManagementLabel.Visible = !compact;
-        sidebarAdminLabel.Visible = !compact;
-
-        UpdateNavigationGroups();
     }
-    finally
-    {
-        ResumeLayout(true);
-    }
-}
-    
+
     private void ApplyNavigationLayout(
         Panel navItem,
         TzIcon icon,
         Control label)
     {
-        bool compact = AppSettings.CompactSidebar;
+        bool compact =
+            AppSettings.CompactSidebar;
 
         navItem.Width =
             compact
@@ -394,46 +403,84 @@ public partial class MainForm : Form
                 ? 12
                 : 16;
 
-        icon.Top = 10;
+        icon.Top =
+            10;
 
-        label.Visible = !compact;
+        label.Visible =
+            !compact;
 
         if (!compact)
         {
-            label.Left = 50;
-            label.Top = 0;
-            label.Width = 155;
+            label.Left =
+                50;
+
+            label.Top =
+                0;
+
+            label.Width =
+                155;
         }
     }
-    
+
     private void UpdateNavigationGroups()
     {
-        bool compact = AppSettings.CompactSidebar;
+        bool compact =
+            AppSettings.CompactSidebar;
 
-        int left = compact ? 12 : 12;
-
-        navDashboard.Left = left;
-        navProduct.Left = left;
-        navCategory.Left = left;
-        navInventory.Left = left;
-        navSale.Left = left;
-        navCustomer.Left = left;
-        navUser.Left = left;
-        navSetting.Left = left;
+        int left = 12;
 
         int width =
             compact
                 ? CompactNavWidth
                 : ExpandedNavWidth;
 
-        navDashboard.Width = width;
-        navProduct.Width = width;
-        navCategory.Width = width;
-        navInventory.Width = width;
-        navSale.Width = width;
-        navCustomer.Width = width;
-        navUser.Width = width;
-        navSetting.Width = width;
+        navDashboard.Left =
+            left;
+
+        navProduct.Left =
+            left;
+
+        navCategory.Left =
+            left;
+
+        navInventory.Left =
+            left;
+
+        navSale.Left =
+            left;
+
+        navCustomer.Left =
+            left;
+
+        navUser.Left =
+            left;
+
+        navSetting.Left =
+            left;
+
+        navDashboard.Width =
+            width;
+
+        navProduct.Width =
+            width;
+
+        navCategory.Width =
+            width;
+
+        navInventory.Width =
+            width;
+
+        navSale.Width =
+            width;
+
+        navCustomer.Width =
+            width;
+
+        navUser.Width =
+            width;
+
+        navSetting.Width =
+            width;
     }
 
     private void LoadView(
@@ -449,7 +496,8 @@ public partial class MainForm : Form
                 key,
                 out UserControl? cachedView))
         {
-            cachedView = view;
+            cachedView =
+                view;
 
             cachedView.Dock =
                 DockStyle.Fill;
@@ -473,11 +521,15 @@ public partial class MainForm : Form
             navItem);
 
         if (parent == null)
+        {
             SetTopbar(page);
+        }
         else
+        {
             SetTopbar(
                 parent,
                 page);
+        }
     }
 
     private static string GetViewKey(
@@ -506,7 +558,9 @@ public partial class MainForm : Form
 
         try
         {
-            view.Visible = true;
+            view.Visible =
+                true;
+
             view.BringToFront();
 
             navItem.SetActive(
@@ -548,7 +602,9 @@ public partial class MainForm : Form
             page =
                 new UserControl
                 {
-                    Dock = DockStyle.Fill,
+                    Dock =
+                        DockStyle.Fill,
+
                     BackColor =
                         TzColors.Background
                 };
@@ -556,16 +612,24 @@ public partial class MainForm : Form
             var label =
                 new Label
                 {
-                    Dock = DockStyle.Fill,
-                    Text = name,
-                    Font = new Font(
-                        "Bahnschrift",
-                        24,
-                        FontStyle.Bold),
+                    Dock =
+                        DockStyle.Fill,
+
+                    Text =
+                        name,
+
+                    Font =
+                        new Font(
+                            "Bahnschrift",
+                            24,
+                            FontStyle.Bold),
+
                     ForeColor =
                         TzColors.TextPrimary,
+
                     BackColor =
                         TzColors.Background,
+
                     TextAlign =
                         ContentAlignment.MiddleCenter
                 };
@@ -575,7 +639,8 @@ public partial class MainForm : Form
             _viewCache[key] =
                 page;
 
-            contentPanel.Controls.Add(page);
+            contentPanel.Controls.Add(
+                page);
         }
 
         SwitchView(
@@ -610,6 +675,9 @@ public partial class MainForm : Form
         object? sender,
         EventArgs e)
     {
+        if (!navDashboard.Visible)
+            return;
+
         LoadView(
             new DashboardView(),
             navDashboard,
@@ -671,9 +739,13 @@ public partial class MainForm : Form
         object? sender,
         EventArgs e)
     {
+        if (!navUser.Visible)
+            return;
+
         LoadView(
             new UserView(
                 currentUserId:
+                AuthService.CurrentUser?.Id ??
                 _currentUser.Id),
             navUser,
             "User");
@@ -683,6 +755,9 @@ public partial class MainForm : Form
         object? sender,
         EventArgs e)
     {
+        if (!navSetting.Visible)
+            return;
+
         LoadView(
             new SettingView(),
             navSetting,
@@ -691,18 +766,39 @@ public partial class MainForm : Form
 
     private void ConfigureRoleAccess()
     {
-        var isAdmin =
-            _currentUser.Role ==
-            UserRole.Admin;
+        Role role =
+            AuthService.CurrentUser?.Role ??
+            Role.Staff;
+
+        bool isAdmin =
+            role == Role.Admin;
+
+        bool isManager =
+            role == Role.Manager;
+
+        bool isStaff =
+            role == Role.Staff;
+
+        bool canAccessManagement =
+            isAdmin ||
+            isManager;
+
+        navDashboard.Visible =
+            !isStaff;
 
         navUser.Visible =
-            isAdmin;
+            canAccessManagement;
 
         navSetting.Visible =
-            isAdmin;
+            canAccessManagement;
 
         sidebarAdminLabel.Visible =
-            isAdmin;
+            canAccessManagement;
+
+        sidebarManagementLabel.Text =
+            isStaff
+                ? "TECHZONE"
+                : "MANAGEMENT";
     }
 
     private void ConfigureNavigationEffects()
@@ -755,11 +851,13 @@ public partial class MainForm : Form
                 navSale);
 
             posView.OpenPage("Order");
+
             SetTopbar(
                 "Point of Sale",
                 "Order");
         }
     }
+
     public void OpenInvoiceHistoryView()
     {
         if (_viewCache.TryGetValue(
@@ -772,18 +870,19 @@ public partial class MainForm : Form
                 navSale);
 
             posView.OpenPage("Invoice History");
+
             SetTopbar(
                 "Point of Sale",
                 "Invoice History");
         }
     }
-    
+
     public void RefreshDashboard()
     {
         if (_viewCache.TryGetValue(
                 typeof(DashboardView).FullName!,
-                out UserControl? view) &&
-            view is DashboardView dashboard)
+                out UserControl? view)
+            && view is DashboardView dashboard)
         {
             dashboard.RefreshData();
         }

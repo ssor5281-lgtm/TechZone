@@ -68,9 +68,11 @@ CREATE TABLE dbo.Inventory
         CONSTRAINT FK_Inventory_Products
             REFERENCES dbo.Products(Id)
             ON DELETE CASCADE,
+
     Stock INT NOT NULL
         CONSTRAINT DF_Inventory_Stock DEFAULT 0
         CONSTRAINT CK_Inventory_Stock CHECK (Stock >= 0),
+
     LastUpdated DATETIME2 NOT NULL
         CONSTRAINT DF_Inventory_LastUpdated DEFAULT SYSDATETIME()
 );
@@ -89,16 +91,23 @@ CREATE TABLE dbo.Users
     Id INT IDENTITY PRIMARY KEY,
     Username NVARCHAR(50) NOT NULL
         CONSTRAINT UQ_Users_Username UNIQUE,
+
     PasswordHash NVARCHAR(255) NOT NULL,
+
     RoleId INT NOT NULL
         CONSTRAINT FK_Users_Roles
             REFERENCES dbo.Roles(Id),
+
     CreatedAt DATETIME2 NOT NULL
         CONSTRAINT DF_Users_CreatedAt DEFAULT SYSDATETIME(),
+
     IsActive BIT NOT NULL
         CONSTRAINT DF_Users_IsActive DEFAULT 1,
+
     DeletedAt DATETIME2,
+
     ProfileImagePath NVARCHAR(500),
+
     DisplayName NVARCHAR(100)
 );
 GO
@@ -109,7 +118,8 @@ CREATE TABLE dbo.Sales
 
     CustomerId INT
         CONSTRAINT FK_Sales_Customers
-            REFERENCES dbo.Customers(Id),
+            REFERENCES dbo.Customers(Id)
+            ON DELETE CASCADE,
 
     UserId INT NOT NULL
         CONSTRAINT FK_Sales_Users
@@ -155,7 +165,8 @@ CREATE TABLE dbo.Invoices
     SaleId INT NOT NULL
         CONSTRAINT UQ_Invoices_SaleId UNIQUE
         CONSTRAINT FK_Invoices_Sales
-            REFERENCES dbo.Sales(Id),
+            REFERENCES dbo.Sales(Id)
+            ON DELETE CASCADE,
 
     CustomerId INT
         CONSTRAINT FK_Invoices_Customers
@@ -189,7 +200,8 @@ CREATE TABLE dbo.SaleDetails
 
     SaleId INT NOT NULL
         CONSTRAINT FK_SaleDetails_Sales
-            REFERENCES dbo.Sales(Id),
+            REFERENCES dbo.Sales(Id)
+            ON DELETE CASCADE,
 
     ProductId INT NOT NULL
         CONSTRAINT FK_SaleDetails_Products
@@ -205,7 +217,6 @@ CREATE TABLE dbo.SaleDetails
 
     Discount DECIMAL(10, 2) NOT NULL
         CONSTRAINT DF_SaleDetails_Discount DEFAULT 0
-        CONSTRAINT CK_SaleDetails_Discount
-            CHECK (Discount >= 0)
+        CONSTRAINT CK_SaleDetails_Discount CHECK (Discount >= 0)
 );
 GO

@@ -23,7 +23,7 @@ public class AuthService
     public void Register(
         string username,
         string password,
-        UserRole role)
+        Role role)
     {
         if (string.IsNullOrWhiteSpace(username))
             throw new ArgumentException(

@@ -1,6 +1,8 @@
-﻿using TechZone.Core.Helpers;
+﻿using TechZone.Core.Enums;
+using TechZone.Core.Helpers;
 using TechZone.Core.Settings;
 using TechZone.Data.Database;
+using TechZone.Data.Services;
 using TechZone.UI.Forms;
 using TechZone.UI.Forms.Dialog;
 using TechZone.UI.Theme;
@@ -9,35 +11,139 @@ namespace TechZone.UI.Views;
 
 public partial class SettingView : UserControl
 {
-    
     public SettingView()
     {
         InitializeComponent();
 
+        ConfigureRoleAccess();
+
         Load += SettingView_Load;
-        themeComboBox.SelectedIndexChanged += ThemeComboBox_SelectedIndexChanged;
-        
-        defaultDiscountNumericUpDown.ValueChanged += DefaultDiscountNumericUpDown_ValueChanged;
-        
-        sidebarStyleComboBox.SelectedIndexChanged += SidebarStyleComboBox_SelectedIndexChanged;
-        
-        allowSellingWhenStockZeroCheckBox.CheckedChanged += AllowSellingWhenStockZeroCheckBox_CheckedChanged;
-        
-        confirmOrderCheckBox.CheckedChanged += ConfirmOrderCheckBox_CheckedChanged;
-        
-        rememberUsernameCheckBox.CheckedChanged += RememberUsernameCheckBox_CheckedChanged;
-        
-        confirmLogoutCheckBox.CheckedChanged += ConfirmLogoutCheckBox_CheckedChanged;
-        
-        exportDatabaseButton.Click += ExportDatabaseButton_Click;
-        
-        importDatabaseButton.Click += ImportDatabaseButton_Click;
-        
-        resetDatabaseButton.Click += ResetDatabaseButton_Click;
-        
+
+        themeComboBox.SelectedIndexChanged +=
+            ThemeComboBox_SelectedIndexChanged;
+
+        defaultDiscountNumericUpDown.ValueChanged +=
+            DefaultDiscountNumericUpDown_ValueChanged;
+
+        sidebarStyleComboBox.SelectedIndexChanged +=
+            SidebarStyleComboBox_SelectedIndexChanged;
+
+        allowSellingWhenStockZeroCheckBox.CheckedChanged +=
+            AllowSellingWhenStockZeroCheckBox_CheckedChanged;
+
+        confirmOrderCheckBox.CheckedChanged +=
+            ConfirmOrderCheckBox_CheckedChanged;
+
+        rememberUsernameCheckBox.CheckedChanged +=
+            RememberUsernameCheckBox_CheckedChanged;
+
+        confirmLogoutCheckBox.CheckedChanged +=
+            ConfirmLogoutCheckBox_CheckedChanged;
+
+        confirmQuickSaleCheckBox.CheckedChanged +=
+            ConfirmQuickSaleCheckBox_CheckedChanged;
+
+        lowStockThresholdNumericUpDown.ValueChanged +=
+            LowStockThresholdNumericUpDown_ValueChanged;
+
+        exportDatabaseButton.Click +=
+            ExportDatabaseButton_Click;
+
+        importDatabaseButton.Click +=
+            ImportDatabaseButton_Click;
+
+        resetDatabaseButton.Click +=
+            ResetDatabaseButton_Click;
     }
 
-    private void SettingView_Load(object? sender, EventArgs e)
+    private void ConfigureRoleAccess()
+    {
+        Role role =
+            AuthService.CurrentUser?.Role ??
+            Role.Staff;
+
+        bool isAdmin =
+            role == Role.Admin;
+
+        bool isManager =
+            role == Role.Manager;
+
+        bool isStaff =
+            role == Role.Staff;
+
+        if (isStaff)
+        {
+            HideSaleSection();
+            HideInventorySection();
+            HideSystemSection();
+            HideAboutSection();
+
+            return;
+        }
+
+        if (isManager)
+        {
+            exportDatabaseButton.Visible = true;
+            importDatabaseButton.Visible = true;
+            resetDatabaseButton.Visible = true;
+
+            return;
+        }
+
+        if (isAdmin)
+        {
+            exportDatabaseButton.Visible = true;
+            importDatabaseButton.Visible = true;
+            resetDatabaseButton.Visible = true;
+        }
+    }
+
+    private void HideSaleSection()
+    {
+        saleIcon.Visible = false;
+        saleLabel.Visible = false;
+        saleDescription.Visible = false;
+        defaultDiscountLabel.Visible = false;
+        defaultDiscountNumericUpDown.Visible = false;
+        confirmQuickSaleCheckBox.Visible = false;
+        confirmOrderCheckBox.Visible = false;
+    }
+
+    private void HideInventorySection()
+    {
+        inventoryIcon.Visible = false;
+        inventoryLabel.Visible = false;
+        inventoryDescription.Visible = false;
+        lowStockThresholdLabel.Visible = false;
+        lowStockThresholdNumericUpDown.Visible = false;
+        allowSellingWhenStockZeroCheckBox.Visible = false;
+    }
+
+    private void HideSystemSection()
+    {
+        systemIcon.Visible = false;
+        systemLabel.Visible = false;
+        systemDescription.Visible = false;
+        rememberUsernameCheckBox.Visible = false;
+        confirmLogoutCheckBox.Visible = false;
+        exportDatabaseButton.Visible = false;
+        importDatabaseButton.Visible = false;
+        resetDatabaseButton.Visible = false;
+    }
+
+    private void HideAboutSection()
+    {
+        aboutIcon.Visible = false;
+        aboutLabel.Visible = false;
+        aboutDescription.Visible = false;
+        applicationNameLabel.Visible = false;
+        versionLabel.Visible = false;
+        aboutTextLabel.Visible = false;
+    }
+
+    private void SettingView_Load(
+        object? sender,
+        EventArgs e)
     {
         LoadAppearance();
         LoadSaleSettings();
@@ -52,20 +158,26 @@ public partial class SettingView : UserControl
         confirmOrderCheckBox.Checked =
             AppSettings.ConfirmOrder;
     }
-    
+
     private void LoadAppearance()
     {
         themeComboBox.Items.Clear();
+
         themeComboBox.Items.Add("Royal Blue");
         themeComboBox.Items.Add("Light");
         themeComboBox.Items.Add("Dark");
 
-        themeComboBox.SelectedItem = AppSettings.Theme switch
-        {
-            TzTheme.Light => "Light",
-            TzTheme.Dark => "Dark",
-            _ => "Royal Blue"
-        };
+        themeComboBox.SelectedItem =
+            AppSettings.Theme switch
+            {
+                TzTheme.Light => "Light",
+                TzTheme.Dark => "Dark",
+                _ => "Royal Blue"
+            };
+        sidebarStyleComboBox.SelectedIndex =
+            AppSettings.CompactSidebar
+                ? 1
+                : 0;
     }
 
     private void ThemeComboBox_SelectedIndexChanged(
@@ -75,17 +187,18 @@ public partial class SettingView : UserControl
         if (themeComboBox.SelectedItem is not string theme)
             return;
 
-        AppSettings.Theme = theme switch
-        {
-            "Light" => TzTheme.Light,
-            "Dark" => TzTheme.Dark,
-            _ => TzTheme.TzRoyalBlue
-        };
+        AppSettings.Theme =
+            theme switch
+            {
+                "Light" => TzTheme.Light,
+                "Dark" => TzTheme.Dark,
+                _ => TzTheme.TzRoyalBlue
+            };
 
         if (FindForm() is MainForm mainForm)
             mainForm.ApplyTheme();
     }
-    
+
     private void SidebarStyleComboBox_SelectedIndexChanged(
         object? sender,
         EventArgs e)
@@ -99,19 +212,22 @@ public partial class SettingView : UserControl
         if (FindForm() is MainForm mainForm)
             mainForm.ApplySidebarStyle();
     }
-    
+
     private void LoadSaleSettings()
     {
-        decimal discount = Math.Clamp(
-            AppSettings.DefaultDiscount,
-            defaultDiscountNumericUpDown.Minimum,
-            defaultDiscountNumericUpDown.Maximum);
+        decimal discount =
+            Math.Clamp(
+                AppSettings.DefaultDiscount,
+                defaultDiscountNumericUpDown.Minimum,
+                defaultDiscountNumericUpDown.Maximum);
 
-        defaultDiscountNumericUpDown.Value = discount;
+        defaultDiscountNumericUpDown.Value =
+            discount;
+
         confirmQuickSaleCheckBox.Checked =
             AppSettings.ConfirmQuickSale;
     }
-    
+
     private void LoadInventorySettings()
     {
         lowStockThresholdNumericUpDown.Value =
@@ -119,10 +235,9 @@ public partial class SettingView : UserControl
                 AppSettings.LowStockThreshold,
                 (int)lowStockThresholdNumericUpDown.Minimum,
                 (int)lowStockThresholdNumericUpDown.Maximum);
-        
+
         allowSellingWhenStockZeroCheckBox.Checked =
             AppSettings.AllowSellingWhenStockZero;
-        
     }
 
     private void DefaultDiscountNumericUpDown_ValueChanged(
@@ -132,7 +247,7 @@ public partial class SettingView : UserControl
         AppSettings.DefaultDiscount =
             defaultDiscountNumericUpDown.Value;
     }
-    
+
     private void ConfirmQuickSaleCheckBox_CheckedChanged(
         object? sender,
         EventArgs e)
@@ -140,7 +255,7 @@ public partial class SettingView : UserControl
         AppSettings.ConfirmQuickSale =
             confirmQuickSaleCheckBox.Checked;
     }
-    
+
     private void LowStockThresholdNumericUpDown_ValueChanged(
         object? sender,
         EventArgs e)
@@ -148,7 +263,7 @@ public partial class SettingView : UserControl
         AppSettings.LowStockThreshold =
             (int)lowStockThresholdNumericUpDown.Value;
     }
-    
+
     private void AllowSellingWhenStockZeroCheckBox_CheckedChanged(
         object? sender,
         EventArgs e)
@@ -164,7 +279,7 @@ public partial class SettingView : UserControl
         AppSettings.ConfirmOrder =
             confirmOrderCheckBox.Checked;
     }
-    
+
     private void RememberUsernameCheckBox_CheckedChanged(
         object? sender,
         EventArgs e)
@@ -186,10 +301,29 @@ public partial class SettingView : UserControl
         AppSettings.ConfirmLogout =
             confirmLogoutCheckBox.Checked;
     }
+
     private void ExportDatabaseButton_Click(
         object? sender,
         EventArgs e)
     {
+        Role role =
+            AuthService.CurrentUser?.Role ??
+            Role.Staff;
+
+        if (role == Role.Manager)
+        {
+            MessageBox.Show(
+                "Only an Administrator can export the database.",
+                "Access Denied",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+            return;
+        }
+
+        if (role != Role.Admin)
+            return;
+
         try
         {
             Cursor = Cursors.WaitCursor;
@@ -200,15 +334,15 @@ public partial class SettingView : UserControl
 
             MessageBox.Show(
                 $"""
-                 Database backup created successfully.
+                Database backup created successfully.
 
-                 File:
-                 {Path.GetFileName(backupPath)}
+                File:
+                {Path.GetFileName(backupPath)}
 
-                 Location:
-                 {backupPath}
-                 """,
-                @"Export Database",
+                Location:
+                {backupPath}
+                """,
+                "Export Database",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
@@ -216,7 +350,7 @@ public partial class SettingView : UserControl
         {
             MessageBox.Show(
                 ex.Message,
-                @"Export Database Failed",
+                "Export Database Failed",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
@@ -226,20 +360,57 @@ public partial class SettingView : UserControl
             exportDatabaseButton.Enabled = true;
         }
     }
+
     private void ImportDatabaseButton_Click(
         object? sender,
         EventArgs e)
     {
+        Role role =
+            AuthService.CurrentUser?.Role ??
+            Role.Staff;
+
+        if (role == Role.Manager)
+        {
+            MessageBox.Show(
+                "Only an Administrator can import the database.",
+                "Access Denied",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+            return;
+        }
+
+        if (role != Role.Admin)
+            return;
+
         using ImportDatabaseForm form =
             new();
 
         form.ShowDialog(FindForm());
     }
-    
+
     private async void ResetDatabaseButton_Click(
         object? sender,
         EventArgs e)
     {
+        Role role =
+            AuthService.CurrentUser?.Role ??
+            Role.Staff;
+
+        if (role == Role.Manager)
+        {
+            MessageBox.Show(
+                "Only an Administrator can reset the database.",
+                "Access Denied",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+            return;
+        }
+
+        if (role != Role.Admin)
+            return;
+
         DialogResult result =
             MessageBox.Show(
                 """
@@ -263,7 +434,7 @@ public partial class SettingView : UserControl
 
                 Are you sure you want to continue?
                 """,
-                @"Reset Database",
+                "Reset Database",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
@@ -273,6 +444,7 @@ public partial class SettingView : UserControl
         try
         {
             Cursor = Cursors.WaitCursor;
+
             resetDatabaseButton.Enabled = false;
             exportDatabaseButton.Enabled = false;
             importDatabaseButton.Enabled = false;
@@ -285,7 +457,7 @@ public partial class SettingView : UserControl
 
                 TechZone will restart automatically.
                 """,
-                @"Reset Database",
+                "Reset Database",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 
@@ -305,17 +477,17 @@ public partial class SettingView : UserControl
         {
             MessageBox.Show(
                 ex.Message,
-                @"Reset Database Failed",
+                "Reset Database Failed",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
         finally
         {
             Cursor = Cursors.Default;
+
             resetDatabaseButton.Enabled = true;
             exportDatabaseButton.Enabled = true;
             importDatabaseButton.Enabled = true;
         }
     }
-    
 }

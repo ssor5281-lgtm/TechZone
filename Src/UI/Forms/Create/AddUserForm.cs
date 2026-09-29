@@ -61,7 +61,7 @@ public partial class AddUserForm : Form
     private void LoadRoles()
     {
         roleComboBox.DataSource =
-            Enum.GetValues<UserRole>();
+            Enum.GetValues<Role>();
 
         roleComboBox.SelectedIndex = -1;
     }
@@ -178,8 +178,8 @@ public partial class AddUserForm : Form
         string password =
             passwordTextBox.Text;
 
-        UserRole role =
-            (UserRole)roleComboBox.SelectedItem!;
+        Role role =
+            (Role)roleComboBox.SelectedItem!;
 
         string passwordHash =
             PasswordHasher.Hash(password);

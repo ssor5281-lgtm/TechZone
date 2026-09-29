@@ -42,7 +42,7 @@ public partial class ProductView : UserControl
     private void ConfigureRoleAccess()
     {
         bool isStaff =
-            AuthService.CurrentUser?.Role == UserRole.Staff;
+            AuthService.CurrentUser?.Role == Role.Staff;
 
         if (isStaff)
         {

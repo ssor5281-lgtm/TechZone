@@ -352,7 +352,7 @@ public class UserRepository : IUserRepository
             DisplayName = reader.IsDBNull(2)
                 ? null
                 : reader.GetString(2),
-            Role = (UserRole)reader.GetInt32(3),
+            Role = (Role)reader.GetInt32(3),
             CreatedAt = reader.GetDateTime(4),
             IsActive = reader.GetBoolean(5),
             ProfileImagePath = reader.IsDBNull(7)

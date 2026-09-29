@@ -7,6 +7,7 @@ using TechZone.UI.Forms;
 using TechZone.UI.Forms.Create;
 using TechZone.UI.Forms.Delete;
 using TechZone.UI.Forms.Edit;
+using TechZone.UI.Forms.View;
 
 namespace TechZone.UI.Views;
 
@@ -21,11 +22,11 @@ public partial class CategoryView : UserControl
     {
         InitializeComponent();
 
-        ConfigureRoleAccess();
         ConfigureTable();
         ConfigurePagination();
         ConfigureToolbar();
         ConfigureDropdowns();
+        ConfigureRoleAccess();
 
         Load += CategoryView_Load;
     }
@@ -33,11 +34,11 @@ public partial class CategoryView : UserControl
     private void ConfigureRoleAccess()
     {
         bool isStaff =
-            AuthService.CurrentUser?.Role == UserRole.Staff;
+            AuthService.CurrentUser?.Role == Role.Staff;
 
         if (isStaff)
         {
-            dataTableCategory.SetActionDisabled(1,disabled:true);
+            dataTableToolbar.ShowAdd = false;
         }
     }
 
@@ -205,82 +206,93 @@ public partial class CategoryView : UserControl
     }
 
     private void ConfigureTable()
-    {
-        dataTableCategory.ClearColumns();
-        dataTableCategory.AddNumberColumn();
-        dataTableCategory.FontSize = 10F;
+{
+    dataTableCategory.ClearColumns();
+    dataTableCategory.AddNumberColumn();
+    dataTableCategory.FontSize = 10F;
 
-        dataTableCategory.AddTextColumn(
-            "Name",
-            "Category Name",
-            "Name");
+    dataTableCategory.AddTextColumn(
+        "Name",
+        "Category Name",
+        "Name");
 
-        dataTableCategory.AddTextColumn(
-            "ProductCount",
-            "Product Count",
-            "ProductCountDisplay");
+    dataTableCategory.AddTextColumn(
+        "ProductCount",
+        "Product Count",
+        "ProductCountDisplay");
 
-        dataTableCategory.AddTextColumn(
-            "Description",
-            "Description",
-            "Description");
+    dataTableCategory.AddTextColumn(
+        "Description",
+        "Description",
+        "Description");
 
-        dataTableCategory.AddActionColumn(
-            showEdit: true,
-            showDelete: true,
-            showView: false);
+    bool isStaff =
+        AuthService.CurrentUser?.Role == Role.Staff;
 
-        dataTableCategory.EditClicked +=
-            DataTableCategory_EditClicked;
+    dataTableCategory.AddActionColumn(
+        showEdit: !isStaff,
+        showDelete: !isStaff,
+        showView: true);
 
-        dataTableCategory.DeleteClicked +=
-            DataTableCategory_DeleteClicked;
+    dataTableCategory.ViewClicked +=
+        DataTableCategory_ViewClicked;
+    
+    dataTableCategory.EditClicked +=
+        DataTableCategory_EditClicked;
 
-        dataTableCategory.SetFixedWidth("No", 70, 70);
-        dataTableCategory.SetFixedWidth("Name", 220, 220);
-        dataTableCategory.SetFixedWidth("ProductCount", 150, 150);
-        dataTableCategory.SetFillColumn(
-            "Description",
-            300,
-            int.MaxValue);
-        dataTableCategory.SetFixedWidth("Action", 150, 150);
+    dataTableCategory.DeleteClicked +=
+        DataTableCategory_DeleteClicked;
 
-        dataTableCategory.SetAlignment(
-            "No",
-            DataGridViewContentAlignment.MiddleCenter);
+    dataTableCategory.SetFixedWidth("No", 70, 70);
+    dataTableCategory.SetFixedWidth("Name", 220, 220);
+    dataTableCategory.SetFixedWidth("ProductCount", 150, 150);
 
-        dataTableCategory.SetHeaderAlignment(
-            "No",
-            DataGridViewContentAlignment.MiddleCenter);
+    dataTableCategory.SetFillColumn(
+        "Description",
+        300,
+        int.MaxValue);
 
-        dataTableCategory.SetAlignment(
-            "Name",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetFixedWidth(
+        "Action",
+        isStaff ? 90 : 220,
+        isStaff ? 90 : 220);
 
-        dataTableCategory.SetHeaderAlignment(
-            "Name",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetAlignment(
+        "No",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCategory.SetAlignment(
-            "ProductCount",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetHeaderAlignment(
+        "No",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCategory.SetHeaderAlignment(
-            "ProductCount",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetAlignment(
+        "Name",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCategory.SetAlignment(
-            "Description",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetHeaderAlignment(
+        "Name",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCategory.SetHeaderAlignment(
-            "Description",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCategory.SetAlignment(
+        "ProductCount",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCategory.SetHeaderAlignment(
-            "Action",
-            DataGridViewContentAlignment.MiddleCenter);
-    }
+    dataTableCategory.SetHeaderAlignment(
+        "ProductCount",
+        DataGridViewContentAlignment.MiddleLeft);
+
+    dataTableCategory.SetAlignment(
+        "Description",
+        DataGridViewContentAlignment.MiddleLeft);
+
+    dataTableCategory.SetHeaderAlignment(
+        "Description",
+        DataGridViewContentAlignment.MiddleLeft);
+
+    dataTableCategory.SetHeaderAlignment(
+        "Action",
+        DataGridViewContentAlignment.MiddleCenter);
+}
 
     private void DataTableCategory_EditClicked(
         object? sender,
@@ -318,5 +330,18 @@ public partial class CategoryView : UserControl
 
         if (FindForm() is MainForm mainForm)
             mainForm.RefreshDashboard();
+    }
+    
+    private void DataTableCategory_ViewClicked(
+        object? sender,
+        DataTableActionEventArgs e)
+    {
+        if (e.DataItem is not Category category)
+            return;
+
+        using var form =
+            new CategoryDetailForm(category);
+
+        form.ShowDialog(this);
     }
 }

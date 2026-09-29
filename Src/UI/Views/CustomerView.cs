@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
+using TechZone.Core.Enums;
 using TechZone.Core.Models;
 using TechZone.Data.Repositories;
+using TechZone.Data.Services;
 using TechZone.UI.Components;
 using TechZone.UI.Forms;
 using TechZone.UI.Forms.Create;
@@ -11,7 +13,7 @@ namespace TechZone.UI.Views;
 public partial class CustomerView : UserControl
 {
     private readonly CustomerRepository _customerRepo = new();
-
+    private bool _isStaff = AuthService.CurrentUser?.Role == Role.Staff;
     private List<Customer> _customers = [];
     private List<Customer> _filteredCustomers = [];
 
@@ -174,12 +176,15 @@ public partial class CustomerView : UserControl
         dataTableToolbar.AddClicked +=
             DataTableToolbar_AddClicked;
 
-        dataTableToolbar.AddButtonX = 755;
-        dataTableToolbar.AddButtonIcon =
-            Resources.icon_add_customer;
+        if (!_isStaff)
+        {
+            dataTableToolbar.AddButtonX = 755;
+            dataTableToolbar.AddButtonIcon =
+                Resources.icon_add_customer;
 
-        dataTableToolbar.AddButtonWidth = 160;
-        dataTableToolbar.AddButtonText = "New Customer";
+            dataTableToolbar.AddButtonWidth = 160;
+            dataTableToolbar.AddButtonText = "New Customer";
+        }
     }
 
     private void DataTableToolbar_SearchChanged(
@@ -248,99 +253,127 @@ public partial class CustomerView : UserControl
     }
 
     private void ConfigureTable()
+{
+    dataTableCustomer.ClearColumns();
+    dataTableCustomer.AddNumberColumn();
+    dataTableCustomer.FontSize = 10F;
+
+    dataTableCustomer.AddTextColumn(
+        "Name",
+        "Customer Name",
+        "Name");
+
+    dataTableCustomer.AddTextColumn(
+        "Phone",
+        "Phone",
+        "Phone");
+
+    dataTableCustomer.AddTextColumn(
+        "Email",
+        "Email",
+        "Email");
+
+    dataTableCustomer.AddTextColumn(
+        "TotalSpent",
+        "Total Spent",
+        "TotalSpentDisplay");
+
+    Role role =
+        AuthService.CurrentUser?.Role ?? Role.Staff;
+
+    bool isAdmin = role == Role.Admin;
+    bool isStaff = role == Role.Staff;
+
+    dataTableCustomer.AddActionColumn(
+        showDelete: isAdmin,
+        showEdit: !isStaff,
+        showView: true);
+
+    dataTableCustomer.SetFixedWidth(
+        "No",
+        60,
+        60);
+
+    dataTableCustomer.SetFixedWidth(
+        "Name",
+        200,
+        200);
+
+    dataTableCustomer.SetFixedWidth(
+        "Phone",
+        150,
+        150);
+
+    dataTableCustomer.SetFillColumn(
+        "Email",
+        180,
+        int.MaxValue);
+
+    dataTableCustomer.SetFixedWidth(
+        "TotalSpent",
+        140,
+        140);
+
+    int actionWidth = role switch
     {
-        dataTableCustomer.ClearColumns();
-        dataTableCustomer.AddNumberColumn();
-        dataTableCustomer.FontSize = 10F;
+        Role.Admin => 210,
+        Role.Manager => 150,
+        _ => 90
+    };
 
-        dataTableCustomer.AddTextColumn(
-            "Name",
-            "Customer Name",
-            "Name");
+    dataTableCustomer.SetFixedWidth(
+        "Action",
+        actionWidth,
+        actionWidth);
 
-        dataTableCustomer.AddTextColumn(
-            "Phone",
-            "Phone",
-            "Phone");
+    dataTableCustomer.SetAlignment(
+        "No",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCustomer.AddTextColumn(
-            "Email",
-            "Email",
-            "Email");
+    dataTableCustomer.SetHeaderAlignment(
+        "No",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCustomer.AddTextColumn(
-            "TotalSpent",
-            "Total Spent",
-            "TotalSpentDisplay");
+    dataTableCustomer.SetAlignment(
+        "Name",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.AddActionColumn(
-            showDelete: true,
-            showEdit: true,
-            showView: false);
+    dataTableCustomer.SetHeaderAlignment(
+        "Name",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.SetFixedWidth("No", 70, 70);
-        dataTableCustomer.SetFixedWidth("Name", 200, 200);
-        dataTableCustomer.SetFixedWidth("Phone", 160, 160);
+    dataTableCustomer.SetAlignment(
+        "Phone",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.SetFillColumn(
-            "Email",
-            200,
-            int.MaxValue);
+    dataTableCustomer.SetHeaderAlignment(
+        "Phone",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.SetFixedWidth(
-            "TotalSpent",
-            150,
-            150);
+    dataTableCustomer.SetAlignment(
+        "Email",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.SetFixedWidth(
-            "Action",
-            150,
-            150);
+    dataTableCustomer.SetHeaderAlignment(
+        "Email",
+        DataGridViewContentAlignment.MiddleLeft);
 
-        dataTableCustomer.SetAlignment(
-            "No",
-            DataGridViewContentAlignment.MiddleCenter);
+    dataTableCustomer.SetAlignment(
+        "TotalSpent",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCustomer.SetHeaderAlignment(
-            "No",
-            DataGridViewContentAlignment.MiddleCenter);
+    dataTableCustomer.SetHeaderAlignment(
+        "TotalSpent",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCustomer.SetAlignment(
-            "Name",
-            DataGridViewContentAlignment.MiddleLeft);
+    dataTableCustomer.SetAlignment(
+        "Action",
+        DataGridViewContentAlignment.MiddleCenter);
 
-        dataTableCustomer.SetHeaderAlignment(
-            "Name",
-            DataGridViewContentAlignment.MiddleLeft);
-
-        dataTableCustomer.SetAlignment(
-            "Phone",
-            DataGridViewContentAlignment.MiddleLeft);
-
-        dataTableCustomer.SetHeaderAlignment(
-            "Phone",
-            DataGridViewContentAlignment.MiddleLeft);
-
-        dataTableCustomer.SetAlignment(
-            "Email",
-            DataGridViewContentAlignment.MiddleLeft);
-
-        dataTableCustomer.SetHeaderAlignment(
-            "Email",
-            DataGridViewContentAlignment.MiddleLeft);
-
-        dataTableCustomer.SetAlignment(
-            "TotalSpent",
-            DataGridViewContentAlignment.MiddleCenter);
-
-        dataTableCustomer.SetHeaderAlignment(
-            "TotalSpent",
-            DataGridViewContentAlignment.MiddleCenter);
-
-        dataTableCustomer.SetHeaderAlignment(
-            "Action",
-            DataGridViewContentAlignment.MiddleCenter);
-    }
+    dataTableCustomer.SetHeaderAlignment(
+        "Action",
+        DataGridViewContentAlignment.MiddleCenter);
+}
 
     private void DataTableCustomer_EditClicked(
         object? sender,

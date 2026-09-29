@@ -33,7 +33,10 @@ partial class ProductGridView
         // flowProducts
         // 
         flowProducts.AutoScroll = true;
-        flowProducts.BackColor = System.Drawing.Color.White;
+        flowProducts.BackColor = System.Drawing.Color.FromArgb(
+            248,
+            250,
+            252);
         flowProducts.Dock = System.Windows.Forms.DockStyle.Fill;
         flowProducts.Location = new System.Drawing.Point(0, 0);
         flowProducts.Name = "flowProducts";
@@ -43,7 +46,10 @@ partial class ProductGridView
         // 
         // bottomPanel
         // 
-        bottomPanel.BackColor = System.Drawing.Color.White;
+        bottomPanel.BackColor = System.Drawing.Color.FromArgb(
+            248,
+            250,
+            252);
         bottomPanel.Controls.Add(btnLoadMore);
         bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
         bottomPanel.Location = new System.Drawing.Point(0, 666);
@@ -56,7 +62,7 @@ partial class ProductGridView
         // 
         btnLoadMore.Anchor = System.Windows.Forms.AnchorStyles.None;
         btnLoadMore.BackColor = System.Drawing.Color.White;
-        btnLoadMore.Cursor = System.Windows.Forms.Cursors.Hand;
+        btnLoadMore.Cursor = System.Windows.Forms.Cursors.Hand; 
         btnLoadMore.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)203)), ((int)((byte)213)), ((int)((byte)225)));
         btnLoadMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         btnLoadMore.Font = new System.Drawing.Font("Bahnschrift", 9F);

@@ -64,7 +64,7 @@ public partial class EditUserForm : Form
             _user.Username;
 
         roleComboBox.DataSource =
-            Enum.GetValues<UserRole>();
+            Enum.GetValues<Role>();
 
         roleComboBox.SelectedItem =
             _user.Role;
@@ -296,7 +296,7 @@ public partial class EditUserForm : Form
                 usernameTextBox.Text.Trim();
 
             _user.Role =
-                (UserRole)roleComboBox.SelectedItem!;
+                (Role)roleComboBox.SelectedItem!;
 
             _user.ProfileImagePath =
                 newImagePath;

@@ -159,7 +159,10 @@ public partial class ProductCard : UserControl
     {
         picProduct.Image = null;
         picProduct.BackColor =
-            Color.FromArgb(245, 250, 252);
+            System.Drawing.Color.FromArgb(
+                222,
+                230,
+                238);
     }
 
     private void DisposeProductImage()

@@ -206,7 +206,7 @@ public partial class AddSaleForm : Form
         {
             var staff = _userRepo
                 .GetAll()
-                .Where(user => user.Role == UserRole.Staff)
+                .Where(user => user.Role == Role.Staff)
                 .ToList();
 
             staffComboBox.DataSource = null;

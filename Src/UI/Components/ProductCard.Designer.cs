@@ -21,6 +21,7 @@ partial class ProductCard
         {
             components.Dispose();
         }
+
         base.Dispose(disposing);
     }
 
@@ -46,7 +47,7 @@ partial class ProductCard
         // 
         // picProduct
         // 
-        picProduct.BackColor = System.Drawing.Color.FromArgb(((int)((byte)248)), ((int)((byte)250)), ((int)((byte)252)));
+        picProduct.BackColor = System.Drawing.Color.FromArgb(((int)((byte)195)), ((int)((byte)220)), ((int)((byte)248)));
         picProduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
         picProduct.Dock = System.Windows.Forms.DockStyle.Top;
         picProduct.Location = new System.Drawing.Point(0, 0);
@@ -58,6 +59,7 @@ partial class ProductCard
         // 
         // pnlContent
         // 
+        pnlContent.BackColor = System.Drawing.Color.FromArgb(((int)((byte)236)), ((int)((byte)241)), ((int)((byte)246)));
         pnlContent.Controls.Add(lblName);
         pnlContent.Controls.Add(lblSku);
         pnlContent.Controls.Add(btnCopySku);
@@ -87,8 +89,8 @@ partial class ProductCard
         // 
         lblSku.AutoEllipsis = true;
         lblSku.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        lblSku.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)100)), ((int)((byte)116)), ((int)((byte)139)));
-        lblSku.Location = new System.Drawing.Point(14, 44);
+        lblSku.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)71)), ((int)((byte)85)), ((int)((byte)105)));
+        lblSku.Location = new System.Drawing.Point(14, 48);
         lblSku.Name = "lblSku";
         lblSku.Size = new System.Drawing.Size(155, 20);
         lblSku.TabIndex = 1;
@@ -97,14 +99,14 @@ partial class ProductCard
         // btnCopySku
         // 
         btnCopySku.AutoSize = true;
-        btnCopySku.BackColor = System.Drawing.Color.FromArgb(((int)((byte)241)), ((int)((byte)245)), ((int)((byte)249)));
+        btnCopySku.BackColor = System.Drawing.Color.Gainsboro;
         btnCopySku.Cursor = System.Windows.Forms.Cursors.Hand;
-        btnCopySku.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)226)), ((int)((byte)232)), ((int)((byte)240)));
+        btnCopySku.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)((byte)191)), ((int)((byte)219)), ((int)((byte)254)));
         btnCopySku.FlatAppearance.BorderSize = 0;
-        btnCopySku.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)((byte)226)), ((int)((byte)232)), ((int)((byte)240)));
+        btnCopySku.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)((byte)191)), ((int)((byte)219)), ((int)((byte)254)));
         btnCopySku.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
         btnCopySku.Font = new System.Drawing.Font("Bahnschrift", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)0));
-        btnCopySku.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)71)), ((int)((byte)85)), ((int)((byte)105)));
+        btnCopySku.ForeColor = System.Drawing.Color.Black;
         btnCopySku.Location = new System.Drawing.Point(180, 40);
         btnCopySku.Name = "btnCopySku";
         btnCopySku.Size = new System.Drawing.Size(68, 28);
@@ -118,8 +120,8 @@ partial class ProductCard
         lblCategory.AutoEllipsis = true;
         lblCategory.AutoSize = true;
         lblCategory.Font = new System.Drawing.Font("Bahnschrift", 9F);
-        lblCategory.ForeColor = System.Drawing.Color.IndianRed;
-        lblCategory.Location = new System.Drawing.Point(14, 70);
+        lblCategory.ForeColor = System.Drawing.Color.Maroon;
+        lblCategory.Location = new System.Drawing.Point(14, 68);
         lblCategory.Name = "lblCategory";
         lblCategory.Size = new System.Drawing.Size(67, 18);
         lblCategory.TabIndex = 3;
@@ -138,7 +140,7 @@ partial class ProductCard
         // lblStock
         // 
         lblStock.Font = new System.Drawing.Font("Bahnschrift", 9.5F);
-        lblStock.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)71)), ((int)((byte)85)), ((int)((byte)105)));
+        lblStock.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)51)), ((int)((byte)65)), ((int)((byte)85)));
         lblStock.Location = new System.Drawing.Point(140, 102);
         lblStock.Name = "lblStock";
         lblStock.Size = new System.Drawing.Size(110, 22);
@@ -149,8 +151,7 @@ partial class ProductCard
         // ProductCard
         // 
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-        BackColor = System.Drawing.Color.White;
-        BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+        BackColor = System.Drawing.Color.FromArgb(((int)((byte)236)), ((int)((byte)241)), ((int)((byte)246)));
         Controls.Add(pnlContent);
         Controls.Add(picProduct);
         Font = new System.Drawing.Font("Bahnschrift", 10F);
