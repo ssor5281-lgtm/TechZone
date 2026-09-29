@@ -88,7 +88,10 @@ public static class ImageHelper
         PictureBox pictureBox,
         string? imagePath)
     {
-        if (string.IsNullOrWhiteSpace(imagePath))
+        string? fullPath =
+            GetFullPath(imagePath);
+
+        if (string.IsNullOrWhiteSpace(fullPath))
         {
             SetPlaceholder(pictureBox);
             return false;
@@ -96,15 +99,6 @@ public static class ImageHelper
 
         try
         {
-            string? fullPath =
-                GetFullPath(imagePath);
-
-            if (string.IsNullOrWhiteSpace(fullPath))
-            {
-                SetPlaceholder(pictureBox);
-                return false;
-            }
-
             LoadPreview(
                 pictureBox,
                 fullPath);
@@ -205,7 +199,41 @@ public static class ImageHelper
             return null;
 
         if (Path.IsPathRooted(imagePath))
+        {
+            if (File.Exists(imagePath))
+                return imagePath;
+
+            string fileName =
+                Path.GetFileName(imagePath);
+
+            if (string.IsNullOrWhiteSpace(fileName))
+                return imagePath;
+
+            string normalizedAbsolute =
+                imagePath.Replace(
+                    '/',
+                    Path.DirectorySeparatorChar);
+
+            if (normalizedAbsolute.Contains(
+                    $"{Path.DirectorySeparatorChar}Asset{Path.DirectorySeparatorChar}Products{Path.DirectorySeparatorChar}",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return Path.Combine(
+                    AppPaths.ProductImages,
+                    fileName);
+            }
+
+            if (normalizedAbsolute.Contains(
+                    $"{Path.DirectorySeparatorChar}Asset{Path.DirectorySeparatorChar}Users{Path.DirectorySeparatorChar}",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return Path.Combine(
+                    AppPaths.UserImages,
+                    fileName);
+            }
+
             return imagePath;
+        }
 
         string normalizedPath =
             imagePath
@@ -215,6 +243,62 @@ public static class ImageHelper
                 .TrimStart(
                     Path.DirectorySeparatorChar);
 
+        string assetProducts =
+            "Asset" +
+            Path.DirectorySeparatorChar +
+            "Products" +
+            Path.DirectorySeparatorChar;
+
+        string assetUsers =
+            "Asset" +
+            Path.DirectorySeparatorChar +
+            "Users" +
+            Path.DirectorySeparatorChar;
+
+        string products =
+            "Products" +
+            Path.DirectorySeparatorChar;
+
+        string users =
+            "Users" +
+            Path.DirectorySeparatorChar;
+
+        if (normalizedPath.StartsWith(
+                assetProducts,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.ProductImages,
+                normalizedPath[assetProducts.Length..]);
+        }
+
+        if (normalizedPath.StartsWith(
+                assetUsers,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.UserImages,
+                normalizedPath[assetUsers.Length..]);
+        }
+
+        if (normalizedPath.StartsWith(
+                products,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.ProductImages,
+                normalizedPath[products.Length..]);
+        }
+
+        if (normalizedPath.StartsWith(
+                users,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.UserImages,
+                normalizedPath[users.Length..]);
+        }
+
         if (normalizedPath.StartsWith(
                 "Asset" +
                 Path.DirectorySeparatorChar,
@@ -223,30 +307,6 @@ public static class ImageHelper
             return Path.Combine(
                 AppPaths.ProjectRoot,
                 normalizedPath);
-        }
-
-        if (normalizedPath.StartsWith(
-                "Products" +
-                Path.DirectorySeparatorChar,
-                StringComparison.OrdinalIgnoreCase))
-        {
-            return Path.Combine(
-                AppPaths.ProductImages,
-                normalizedPath[
-                    ("Products" +
-                     Path.DirectorySeparatorChar).Length..]);
-        }
-
-        if (normalizedPath.StartsWith(
-                "Users" +
-                Path.DirectorySeparatorChar,
-                StringComparison.OrdinalIgnoreCase))
-        {
-            return Path.Combine(
-                AppPaths.UserImages,
-                normalizedPath[
-                    ("Users" +
-                     Path.DirectorySeparatorChar).Length..]);
         }
 
         return Path.Combine(

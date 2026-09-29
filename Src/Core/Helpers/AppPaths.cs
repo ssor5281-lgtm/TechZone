@@ -1,5 +1,4 @@
-﻿
-namespace TechZone.Core.Helpers;
+﻿namespace TechZone.Core.Helpers;
 
 public static class AppPaths
 {
@@ -34,10 +33,11 @@ public static class AppPaths
     {
         get
         {
-            var path = Path.Combine(
-                Environment.GetFolderPath(
-                    Environment.SpecialFolder.LocalApplicationData),
-                "TechZone");
+            var path =
+                Path.Combine(
+                    Environment.GetFolderPath(
+                        Environment.SpecialFolder.LocalApplicationData),
+                    "TechZone");
 
             Directory.CreateDirectory(path);
 
@@ -49,9 +49,10 @@ public static class AppPaths
     {
         get
         {
-            var path = Path.Combine(
-                AppDataRoot,
-                "Products");
+            var path =
+                Path.Combine(
+                    AppDataRoot,
+                    "Products");
 
             Directory.CreateDirectory(path);
 
@@ -63,9 +64,10 @@ public static class AppPaths
     {
         get
         {
-            var path = Path.Combine(
-                AppDataRoot,
-                "Users");
+            var path =
+                Path.Combine(
+                    AppDataRoot,
+                    "Users");
 
             Directory.CreateDirectory(path);
 

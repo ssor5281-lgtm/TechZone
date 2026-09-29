@@ -314,7 +314,6 @@ public partial class EditProductForm : Form
             savedPath;
 
         return Path.Combine(
-            "Asset",
             "Products",
             $"product_{productId}.jpg");
     }

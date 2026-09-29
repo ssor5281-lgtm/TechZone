@@ -45,7 +45,8 @@ public partial class ProductCard : UserControl
         LoadProductImage(_product.ImagePath);
     }
 
-    private void LoadProductImage(string? imagePath)
+    private void LoadProductImage(
+        string? imagePath)
     {
         DisposeProductImage();
 
@@ -55,16 +56,12 @@ public partial class ProductCard : UserControl
             return;
         }
 
-        string fullPath = imagePath;
-
-        if (!Path.IsPathRooted(fullPath))
-        {
-            fullPath = Path.Combine(
-                AppPaths.ProjectRoot,
+        string? fullPath =
+            ImageHelper.GetFullPath(
                 imagePath);
-        }
 
-        if (!File.Exists(fullPath))
+        if (string.IsNullOrWhiteSpace(fullPath) ||
+            !File.Exists(fullPath))
         {
             SetImagePlaceholder();
             return;
@@ -72,19 +69,23 @@ public partial class ProductCard : UserControl
 
         try
         {
-            using var stream = new FileStream(
-                fullPath,
-                FileMode.Open,
-                FileAccess.Read,
-                FileShare.Read);
+            using var stream =
+                new FileStream(
+                    fullPath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read);
 
-            using var sourceImage = Image.FromStream(stream);
+            using var sourceImage =
+                Image.FromStream(stream);
 
-            picProduct.Image = CreateCenterCrop(
-                sourceImage,
-                picProduct.ClientSize);
+            picProduct.Image =
+                CreateCenterCrop(
+                    sourceImage,
+                    picProduct.ClientSize);
 
-            picProduct.BackColor = Color.White;
+            picProduct.BackColor =
+                Color.White;
         }
         catch
         {
