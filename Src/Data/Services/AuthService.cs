@@ -49,6 +49,9 @@ public class AuthService
         _userRepository.Create(
             user,
             passwordHash);
+
+        CurrentUser =
+            _userRepository.GetByUsername(username);
     }
 
     public User? Login(

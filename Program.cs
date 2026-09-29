@@ -13,16 +13,6 @@ internal static class Program
     {
         AppSettings.Load();
         ApplicationConfiguration.Initialize();
-
-        // var testAdmin = new User
-        // {
-        //     Id = 1,
-        //     Username = "admin",
-        //     Role = UserRole.Admin,
-        //     CreatedAt = DateTime.Now
-        // };
-        // Application.Run(new MainForm(testAdmin));
-
         Application.Run(new SplashLoading());
     }
 }
