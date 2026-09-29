@@ -291,8 +291,8 @@ public partial class CustomerView : UserControl
 
     dataTableCustomer.SetFixedWidth(
         "No",
-        60,
-        60);
+        70,
+        70);
 
     dataTableCustomer.SetFixedWidth(
         "Name",
