@@ -1,6 +1,7 @@
 ﻿bin/
 obj/
 .vs/
+Installer/
 .idea
 *.user
 *.suo
