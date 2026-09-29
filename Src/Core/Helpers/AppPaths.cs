@@ -1,4 +1,5 @@
-﻿namespace TechZone.Core.Helpers;
+﻿
+namespace TechZone.Core.Helpers;
 
 public static class AppPaths
 {
@@ -7,7 +8,8 @@ public static class AppPaths
         get
         {
             var directory =
-                    new DirectoryInfo(AppContext.BaseDirectory);
+                new DirectoryInfo(AppContext.BaseDirectory);
+
             while (directory != null)
             {
                 if (File.Exists(
@@ -21,20 +23,53 @@ public static class AppPaths
                 directory = directory.Parent;
             }
 
-            throw new DirectoryNotFoundException(
-                "TechZone project root could not be found.");
+            return AppContext.BaseDirectory;
         }
     }
 
-    public static string ProductImages =>
-        Path.Combine(
-            ProjectRoot,
-            "Asset",
-            "Products");
-    public static string UserImages =>
-        Path.Combine(
-            ProjectRoot,
-            "Asset",
-            "Users");
-    
+    public static string ApplicationDirectory =>
+        AppContext.BaseDirectory;
+
+    public static string AppDataRoot
+    {
+        get
+        {
+            var path = Path.Combine(
+                Environment.GetFolderPath(
+                    Environment.SpecialFolder.LocalApplicationData),
+                "TechZone");
+
+            Directory.CreateDirectory(path);
+
+            return path;
+        }
+    }
+
+    public static string ProductImages
+    {
+        get
+        {
+            var path = Path.Combine(
+                AppDataRoot,
+                "Products");
+
+            Directory.CreateDirectory(path);
+
+            return path;
+        }
+    }
+
+    public static string UserImages
+    {
+        get
+        {
+            var path = Path.Combine(
+                AppDataRoot,
+                "Users");
+
+            Directory.CreateDirectory(path);
+
+            return path;
+        }
+    }
 }

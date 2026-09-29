@@ -13,6 +13,7 @@ internal static class Program
     {
         AppSettings.Load();
         ApplicationConfiguration.Initialize();
+        
         Application.Run(new SplashLoading());
     }
 }

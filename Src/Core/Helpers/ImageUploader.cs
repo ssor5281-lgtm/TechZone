@@ -22,7 +22,7 @@ public static class ImageHelper
         using var dialog = new OpenFileDialog
         {
             Title = title,
-            Filter = "Image Files|*.jpg;*.jpeg;*.png",
+            Filter = @"Image Files|*.jpg;*.jpeg;*.png",
             Multiselect = false
         };
 
@@ -96,9 +96,18 @@ public static class ImageHelper
 
         try
         {
+            string? fullPath =
+                GetFullPath(imagePath);
+
+            if (string.IsNullOrWhiteSpace(fullPath))
+            {
+                SetPlaceholder(pictureBox);
+                return false;
+            }
+
             LoadPreview(
                 pictureBox,
-                imagePath);
+                fullPath);
 
             return true;
         }
@@ -198,9 +207,51 @@ public static class ImageHelper
         if (Path.IsPathRooted(imagePath))
             return imagePath;
 
+        string normalizedPath =
+            imagePath
+                .Replace(
+                    '/',
+                    Path.DirectorySeparatorChar)
+                .TrimStart(
+                    Path.DirectorySeparatorChar);
+
+        if (normalizedPath.StartsWith(
+                "Asset" +
+                Path.DirectorySeparatorChar,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.ProjectRoot,
+                normalizedPath);
+        }
+
+        if (normalizedPath.StartsWith(
+                "Products" +
+                Path.DirectorySeparatorChar,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.ProductImages,
+                normalizedPath[
+                    ("Products" +
+                     Path.DirectorySeparatorChar).Length..]);
+        }
+
+        if (normalizedPath.StartsWith(
+                "Users" +
+                Path.DirectorySeparatorChar,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(
+                AppPaths.UserImages,
+                normalizedPath[
+                    ("Users" +
+                     Path.DirectorySeparatorChar).Length..]);
+        }
+
         return Path.Combine(
-            AppPaths.ProjectRoot,
-            imagePath);
+            AppPaths.AppDataRoot,
+            normalizedPath);
     }
 
     public static bool DeleteImage(
