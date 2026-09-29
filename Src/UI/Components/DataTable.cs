@@ -10,6 +10,7 @@ public partial class DataTable : UserControl
     public event EventHandler<DataTableCustomActionEventArgs>? CustomActionClicked;
     
     private readonly HashSet<int> _disabledActionRows = [];
+    private readonly HashSet<(int RowIndex, string ActionName)> _disabledActions = [];
     private readonly List<CustomActionButton> _customActions = [];
     private readonly ToolTip _actionToolTip = new();
 
@@ -426,10 +427,50 @@ public partial class DataTable : UserControl
         dataGridView.InvalidateRow(rowIndex);
     }
 
+    public void SetCustomActionDisabled(
+        int rowIndex,
+        string actionName,
+        bool disabled = true)
+    {
+        if (rowIndex < 0 ||
+            rowIndex >= dataGridView.Rows.Count ||
+            string.IsNullOrWhiteSpace(actionName))
+            return;
+
+        var key = (rowIndex, actionName);
+
+        if (disabled)
+            _disabledActions.Add(key);
+        else
+            _disabledActions.Remove(key);
+
+        if (disabled &&
+            _hoverRow == rowIndex &&
+            string.Equals(
+                _hoverAction,
+                actionName,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            ResetActionHover();
+            dataGridView.Cursor = Cursors.No;
+        }
+
+        dataGridView.InvalidateRow(rowIndex);
+    }
+
     public void ClearDisabledActions()
     {
         _disabledActionRows.Clear();
+        _disabledActions.Clear();
         dataGridView.Invalidate();
+    }
+
+    private bool IsActionDisabled(
+        int rowIndex,
+        string actionName)
+    {
+        return _disabledActionRows.Contains(rowIndex) ||
+               _disabledActions.Contains((rowIndex, actionName));
     }
 
     private int GetActionColumnIndex()
@@ -465,13 +506,6 @@ public partial class DataTable : UserControl
             return;
         }
 
-        if (_disabledActionRows.Contains(hit.RowIndex))
-        {
-            ResetActionHover();
-            dataGridView.Cursor = Cursors.No;
-            return;
-        }
-
         Rectangle cellBounds =
             dataGridView.GetCellDisplayRectangle(
                 actionColumnIndex,
@@ -499,6 +533,15 @@ public partial class DataTable : UserControl
         {
             ResetActionHover();
             dataGridView.Cursor = Cursors.Default;
+            return;
+        }
+
+        if (IsActionDisabled(
+                hit.RowIndex,
+                action.Name))
+        {
+            ResetActionHover();
+            dataGridView.Cursor = Cursors.No;
             return;
         }
 
@@ -686,10 +729,6 @@ public partial class DataTable : UserControl
             e.CellBounds.X +
             (e.CellBounds.Width - totalWidth) / 2;
 
-        bool disabled =
-            _disabledActionRows.Contains(
-                e.RowIndex);
-
         foreach (var action in actions)
         {
             var rect =
@@ -707,6 +746,11 @@ public partial class DataTable : UserControl
                     _hoverAction,
                     action.Name,
                     StringComparison.OrdinalIgnoreCase);
+
+            bool disabled =
+                IsActionDisabled(
+                    e.RowIndex,
+                    action.Name);
 
             switch (action.Type)
             {
@@ -793,10 +837,7 @@ public partial class DataTable : UserControl
     {
         Color background =
             disabled
-                ? Color.FromArgb(
-                    243,
-                    244,
-                    246)
+                ? Color.FromArgb(209, 213, 219)
                 : hover
                     ? hoverBackground
                     : normalBackground;
@@ -852,10 +893,7 @@ public partial class DataTable : UserControl
     {
         Color background =
             disabled
-                ? Color.FromArgb(
-                    243,
-                    244,
-                    246)
+                ? Color.FromArgb(209, 213, 219)
                 : hover
                     ? action.HoverColor
                     : action.BackgroundColor;
@@ -909,15 +947,18 @@ public partial class DataTable : UserControl
         if (e.RowIndex < 0 ||
             !dataGridView.Columns.Contains("Action") ||
             e.ColumnIndex !=
-            dataGridView.Columns["Action"]!.Index ||
-            _disabledActionRows.Contains(
-                e.RowIndex))
+            dataGridView.Columns["Action"]!.Index)
             return;
 
         ActionItem? action =
             GetActionAtPosition(e.X);
 
         if (action == null)
+            return;
+
+        if (IsActionDisabled(
+                e.RowIndex,
+                action.Name))
             return;
 
         DataTableActionEventArgs args =
@@ -1173,6 +1214,7 @@ public partial class DataTable : UserControl
     public void ClearColumns()
     {
         _disabledActionRows.Clear();
+        _disabledActions.Clear();
         _customActions.Clear();
 
         _showView = true;

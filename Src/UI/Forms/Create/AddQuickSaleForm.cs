@@ -404,6 +404,9 @@ public partial class AddQuickSaleForm : Form
                     saleId,
                     AppSettings.AllowSellingWhenStockZero);
 
+            if (Owner is MainForm mainForm)
+                mainForm.RefreshDashboard();
+
             MessageBox.Show(
                 $@"Sale INV-{invoiceNumber:D5} completed.",
                 @"Sale Completed",

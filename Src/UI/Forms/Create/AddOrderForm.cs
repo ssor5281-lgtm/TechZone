@@ -618,13 +618,15 @@ public partial class AddOrderForm : Form
                 return;
             }
         }
-
         try
         {
             _saleRepo.CreateSale(
                 order,
                 PointOfSaleHelper.BuildSaleDetails(_cart),
                 false);
+
+            if (Owner is MainForm mainForm)
+                mainForm.RefreshDashboard();
 
             MessageBox.Show(
                 $@"Order {order.OrderCode} has been saved.",

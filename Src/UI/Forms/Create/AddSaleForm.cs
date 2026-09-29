@@ -44,7 +44,7 @@ public partial class AddSaleForm : Form
             AppSettings.DefaultDiscount.ToString("0.##");
 
         UpdateTotals();
-        Text = "New Sale";
+        Text = @"New Sale";
     }
 
     private void ConfigureEvents()
@@ -382,13 +382,13 @@ public partial class AddSaleForm : Form
                 discount);
 
         subtotalValueLabel.Text =
-            $"${totals.Subtotal:N2}";
+            $@"${totals.Subtotal:N2}";
 
         discountValueLabel.Text =
-            $"${totals.DiscountAmount:N2}";
+            $@"${totals.DiscountAmount:N2}";
 
         totalValueLabel.Text =
-            $"${totals.Total:N2}";
+            $@"${totals.Total:N2}";
     }
 
     private void CalculateDiscountButton_Click(
@@ -592,11 +592,13 @@ public partial class AddSaleForm : Form
                 _saleRepo.CancelSale(saleId);
                 return;
             }
-
             int invoice =
                 _saleRepo.CompleteSale(
                     saleId,
                     AppSettings.AllowSellingWhenStockZero);
+
+            if (Owner is MainForm mainForm)
+                mainForm.RefreshDashboard();
 
             MessageBox.Show(
                 $@"Sale INV-{invoice:D5} has been completed.",

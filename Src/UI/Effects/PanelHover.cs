@@ -53,7 +53,7 @@ public static class TzEffects
             Control = control,
             PropertyName = propertyName,
             DefaultValue = defaultValue,
-            ActiveValue = () => TzColors.PrimaryActive,
+            ActiveValue = () => activeValue,
             Animate = animate,
             Duration = duration,
             Group = group

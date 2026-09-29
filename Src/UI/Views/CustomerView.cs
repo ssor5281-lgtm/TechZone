@@ -2,6 +2,7 @@
 using TechZone.Core.Models;
 using TechZone.Data.Repositories;
 using TechZone.UI.Components;
+using TechZone.UI.Forms;
 using TechZone.UI.Forms.Create;
 using TechZone.UI.Forms.Edit;
 
@@ -23,8 +24,12 @@ public partial class CustomerView : UserControl
         ConfigureToolbar();
         ConfigureDropdowns();
 
-        dataTableCustomer.EditClicked += DataTableCustomer_EditClicked;
-        dataTableCustomer.DeleteClicked += DataTableCustomer_DeleteClicked;
+        dataTableCustomer.EditClicked +=
+            DataTableCustomer_EditClicked;
+
+        dataTableCustomer.DeleteClicked +=
+            DataTableCustomer_DeleteClicked;
+
         Load += CustomerView_Load;
     }
 
@@ -170,7 +175,9 @@ public partial class CustomerView : UserControl
             DataTableToolbar_AddClicked;
 
         dataTableToolbar.AddButtonX = 755;
-        dataTableToolbar.AddButtonIcon = Resources.icon_add_customer;
+        dataTableToolbar.AddButtonIcon =
+            Resources.icon_add_customer;
+
         dataTableToolbar.AddButtonWidth = 160;
         dataTableToolbar.AddButtonText = "New Customer";
     }
@@ -200,8 +207,13 @@ public partial class CustomerView : UserControl
     {
         using var form = new AddCustomerForm();
 
-        if (form.ShowDialog(this) == DialogResult.OK)
-            LoadCustomers();
+        if (form.ShowDialog(this) != DialogResult.OK)
+            return;
+
+        LoadCustomers();
+
+        if (FindForm() is MainForm mainForm)
+            mainForm.RefreshDashboard();
     }
 
     private void ConfigurePagination()
@@ -225,10 +237,11 @@ public partial class CustomerView : UserControl
             (dataTablePagination1.CurrentPage - 1)
             * dataTablePagination1.PageSize;
 
-        List<Customer> pageItems = _filteredCustomers
-            .Skip(skip)
-            .Take(dataTablePagination1.PageSize)
-            .ToList();
+        List<Customer> pageItems =
+            _filteredCustomers
+                .Skip(skip)
+                .Take(dataTablePagination1.PageSize)
+                .ToList();
 
         dataTableCustomer.NumberStart = skip + 1;
         dataTableCustomer.DataSource = pageItems;
@@ -237,9 +250,7 @@ public partial class CustomerView : UserControl
     private void ConfigureTable()
     {
         dataTableCustomer.ClearColumns();
-
         dataTableCustomer.AddNumberColumn();
-
         dataTableCustomer.FontSize = 10F;
 
         dataTableCustomer.AddTextColumn(
@@ -262,22 +273,14 @@ public partial class CustomerView : UserControl
             "Total Spent",
             "TotalSpentDisplay");
 
-        dataTableCustomer.AddActionColumn(showDelete:true, showEdit:true,showView:false);
+        dataTableCustomer.AddActionColumn(
+            showDelete: true,
+            showEdit: true,
+            showView: false);
 
-        dataTableCustomer.SetFixedWidth(
-            "No",
-            70,
-            70);
-
-        dataTableCustomer.SetFixedWidth(
-            "Name",
-            200,
-            200);
-
-        dataTableCustomer.SetFixedWidth(
-            "Phone",
-            160,
-            160);
+        dataTableCustomer.SetFixedWidth("No", 70, 70);
+        dataTableCustomer.SetFixedWidth("Name", 200, 200);
+        dataTableCustomer.SetFixedWidth("Phone", 160, 160);
 
         dataTableCustomer.SetFillColumn(
             "Email",
@@ -348,8 +351,13 @@ public partial class CustomerView : UserControl
 
         using var form = new EditCustomerForm(customer);
 
-        if (form.ShowDialog() == DialogResult.OK)
-            LoadCustomers();
+        if (form.ShowDialog() != DialogResult.OK)
+            return;
+
+        LoadCustomers();
+
+        if (FindForm() is MainForm mainForm)
+            mainForm.RefreshDashboard();
     }
 
     private void DataTableCustomer_DeleteClicked(
@@ -382,5 +390,8 @@ public partial class CustomerView : UserControl
         }
 
         LoadCustomers();
+
+        if (FindForm() is MainForm mainForm)
+            mainForm.RefreshDashboard();
     }
 }

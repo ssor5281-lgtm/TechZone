@@ -3,6 +3,7 @@ using TechZone.Core.Models;
 using TechZone.Data.Repositories;
 using TechZone.UI.Components;
 using TechZone.UI.Effects;
+using TechZone.UI.Forms;
 using TechZone.UI.Forms.Create;
 using TechZone.UI.Forms.Dialog;
 
@@ -109,13 +110,33 @@ public partial class OrderView : UserControl
 
     private void LoadCurrentPage()
     {
-        int skip = (dataTablePagination.CurrentPage - 1) * dataTablePagination.PageSize;
+        int skip =
+            (dataTablePagination.CurrentPage - 1) *
+            dataTablePagination.PageSize;
 
-        dataTableOrder.NumberStart = skip + 1;
-        dataTableOrder.DataSource = _filteredOrders
+        List<OrderRow> pageItems = _filteredOrders
             .Skip(skip)
             .Take(dataTablePagination.PageSize)
             .ToList();
+
+        dataTableOrder.NumberStart = skip + 1;
+        dataTableOrder.DataSource = pageItems;
+
+        dataTableOrder.ClearDisabledActions();
+
+        for (int i = 0; i < pageItems.Count; i++)
+        {
+            if (pageItems[i].Status == "Canceled")
+            {
+                dataTableOrder.SetCustomActionDisabled(
+                    i,
+                    "collectButton");
+
+                dataTableOrder.SetCustomActionDisabled(
+                    i,
+                    "cancelButton");
+            }
+        }
     }
 
     private void ConfigurePagination()
@@ -246,7 +267,7 @@ public partial class OrderView : UserControl
 
     private OrderRow CreateRow(Sale sale)
     {
-        Customer? customer = sale.CustomerId is int id
+        Customer? customer = sale.CustomerId is { } id
             ? _customers.FirstOrDefault(x => x.Id == id)
             : null;
 
@@ -257,7 +278,7 @@ public partial class OrderView : UserControl
         {
             SaleId = sale.Id,
             OrderNumber = sale.OrderNumber ?? 0,
-            Order = sale.OrderNumber is int number
+            Order = sale.OrderNumber is { } number
                 ? $"ORD-{number:D5}"
                 : "-",
             Customer = customer?.Name ?? "-",
@@ -349,6 +370,9 @@ public partial class OrderView : UserControl
             int invoiceNumber =
                 _saleRepo.CompleteSale(order.Id);
 
+            if (FindForm() is MainForm mainForm)
+                mainForm.RefreshDashboard();
+
             MessageBox.Show(
                 $@"Order {row.Order} completed successfully.
 
@@ -398,6 +422,9 @@ Are you sure you want to cancel this order?",
         {
             _saleRepo.CancelSale(order.Id);
 
+            if (FindForm() is MainForm mainForm)
+                mainForm.RefreshDashboard();
+
             MessageBox.Show(
                 @"Order canceled successfully.",
                 @"Cancel Order",
@@ -434,7 +461,7 @@ Are you sure you want to cancel this order?",
         OrderRow row)
     {
         string orderCode =
-            order.OrderNumber is int number
+            order.OrderNumber is { } number
                 ? $"ORD-{number:D5}"
                 : "-";
 

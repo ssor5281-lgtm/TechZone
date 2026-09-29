@@ -2,6 +2,7 @@
 using TechZone.Core.Settings;
 using TechZone.Data.Repositories;
 using TechZone.UI.Components;
+using TechZone.UI.Forms;
 using TechZone.UI.Forms.Edit;
 
 namespace TechZone.UI.Views;
@@ -12,7 +13,6 @@ public partial class InventoryView : UserControl
     private List<Inventory> _inventories = [];
     private List<Inventory> _filteredInventories = [];
 
-
     public InventoryView()
     {
         InitializeComponent();
@@ -21,7 +21,9 @@ public partial class InventoryView : UserControl
         ConfigureToolbar();
         ConfigureDropdowns();
 
-        dataTableInventory.EditClicked += DataTableInventory_EditClicked;
+        dataTableInventory.EditClicked +=
+            DataTableInventory_EditClicked;
+
         Load += (_, _) => LoadInventory();
     }
 
@@ -43,7 +45,9 @@ public partial class InventoryView : UserControl
             .ToArray();
 
         categoryDropdown.SetValues(
-            new[] { "All Categories" }.Concat(categories).ToArray());
+            new[] { "All Categories" }
+                .Concat(categories)
+                .ToArray());
     }
 
     private void ApplyFilters()
@@ -55,47 +59,67 @@ public partial class InventoryView : UserControl
         _filteredInventories = _inventories
             .Where(x =>
                 string.IsNullOrWhiteSpace(search) ||
-                x.ProductName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                x.Stock.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                x.Status.Contains(search, StringComparison.OrdinalIgnoreCase))
-            .Where(x => status == "All Status" || x.Status == status)
-            .Where(x => category == "All Categories" || x.CategoryName == category)
+                x.ProductName.Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase) ||
+                x.Stock.ToString().Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase) ||
+                x.Status.Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase))
+            .Where(x =>
+                status == "All Status" ||
+                x.Status == status)
+            .Where(x =>
+                category == "All Categories" ||
+                x.CategoryName == category)
             .ToList();
 
-        dataTablePagination1.TotalItems = _filteredInventories.Count;
+        dataTablePagination1.TotalItems =
+            _filteredInventories.Count;
+
         dataTablePagination1.GoToFirstPage();
         LoadCurrentPage();
     }
 
     private void LoadCurrentPage()
     {
-        int skip = (dataTablePagination1.CurrentPage - 1) *
-                   dataTablePagination1.PageSize;
+        int skip =
+            (dataTablePagination1.CurrentPage - 1) *
+            dataTablePagination1.PageSize;
 
         dataTableInventory.NumberStart = skip + 1;
-        dataTableInventory.DataSource = _filteredInventories
-            .Skip(skip)
-            .Take(dataTablePagination1.PageSize)
-            .ToList();
+
+        dataTableInventory.DataSource =
+            _filteredInventories
+                .Skip(skip)
+                .Take(dataTablePagination1.PageSize)
+                .ToList();
     }
 
     private void ConfigurePagination()
     {
         dataTablePagination1.PageSize = 10;
-        dataTablePagination1.PageChanged += (_, _) => LoadCurrentPage();
+
+        dataTablePagination1.PageChanged +=
+            (_, _) => LoadCurrentPage();
     }
 
     private void ConfigureToolbar()
     {
         dataTableToolbar.ShowAdd = false;
-        dataTableToolbar.SearchChanged += (_, _) => ApplyFilters();
 
-        dataTableToolbar.RefreshClicked += (_, _) =>
-        {
-            dataTableToolbar.ClearSearch();
-            statusDropdown.Reset();
-            LoadInventory();
-        };
+        dataTableToolbar.SearchChanged +=
+            (_, _) => ApplyFilters();
+
+        dataTableToolbar.RefreshClicked +=
+            (_, _) =>
+            {
+                dataTableToolbar.ClearSearch();
+                statusDropdown.Reset();
+                LoadInventory();
+            };
     }
 
     private void ConfigureDropdowns()
@@ -105,8 +129,12 @@ public partial class InventoryView : UserControl
             "In Stock",
             "Low Stock",
             "Out of Stock");
-        statusDropdown.ValueChanged += (_, _) => ApplyFilters();
-        categoryDropdown.ValueChanged += (_, _) => ApplyFilters();
+
+        statusDropdown.ValueChanged +=
+            (_, _) => ApplyFilters();
+
+        categoryDropdown.ValueChanged +=
+            (_, _) => ApplyFilters();
     }
 
     private void UpdateSummaryCards()
@@ -123,46 +151,110 @@ public partial class InventoryView : UserControl
 
         cardStateStockIn.Value =
             _inventories.Count(
-                    x => x.Stock > threshold)
-                .ToString();
+                x => x.Stock > threshold).ToString();
 
         cardStateStockLow.Value =
             _inventories.Count(
-                    x => x.Stock > 0 &&
-                         x.Stock <= threshold)
-                .ToString();
+                x => x.Stock > 0 &&
+                     x.Stock <= threshold).ToString();
 
         cardStateStockOut.Value =
             _inventories.Count(
-                    x => x.Stock == 0)
-                .ToString();
+                x => x.Stock == 0).ToString();
     }
 
     private void ConfigureTable()
     {
         dataTableInventory.ClearColumns();
         dataTableInventory.FontSize = 10F;
-        
-        dataTableInventory.AddNumberColumn();
-        dataTableInventory.AddTextColumn("Sku", "SKU", "Sku");
-        dataTableInventory.AddTextColumn("ProductName", "Product", "ProductName");
-        dataTableInventory.AddTextColumn("CategoryName", "Category", "CategoryName");
-        dataTableInventory.AddTextColumn("Stock", "Stock", "Stock");
-        dataTableInventory.AddTextColumn("Status", "Status", "Status");
-        dataTableInventory.AddTextColumn("LastUpdated", "Last Updated", "LastUpdated");
-        dataTableInventory.AddActionColumn(showEdit: true, showDelete: false, showView: false);
-       
-        dataTableInventory.SetFixedWidth("No", 70, 70);
-        dataTableInventory.SetFixedWidth("Sku", 150, 150);
-        dataTableInventory.SetFillColumn("ProductName", 200, 1000);
-        dataTableInventory.SetFixedWidth("CategoryName", 220, 220);
-        dataTableInventory.SetFixedWidth("Stock", 80, 80);
-        dataTableInventory.SetFixedWidth("Status", 130, 130);
-        dataTableInventory.SetFixedWidth("LastUpdated", 180, 180);
-        dataTableInventory.SetFixedWidth("Action", 90, 90);
 
-        Center("No", "Stock", "Status", "LastUpdated", "Action");
-        AlignLeft("Sku", "ProductName", "CategoryName");
+        dataTableInventory.AddNumberColumn();
+        dataTableInventory.AddTextColumn(
+            "Sku",
+            "SKU",
+            "Sku");
+
+        dataTableInventory.AddTextColumn(
+            "ProductName",
+            "Product",
+            "ProductName");
+
+        dataTableInventory.AddTextColumn(
+            "CategoryName",
+            "Category",
+            "CategoryName");
+
+        dataTableInventory.AddTextColumn(
+            "Stock",
+            "Stock",
+            "Stock");
+
+        dataTableInventory.AddTextColumn(
+            "Status",
+            "Status",
+            "Status");
+
+        dataTableInventory.AddTextColumn(
+            "LastUpdated",
+            "Last Updated",
+            "LastUpdated");
+
+        dataTableInventory.AddActionColumn(
+            showEdit: true,
+            showDelete: false,
+            showView: false);
+
+        dataTableInventory.SetFixedWidth(
+            "No",
+            70,
+            70);
+
+        dataTableInventory.SetFixedWidth(
+            "Sku",
+            150,
+            150);
+
+        dataTableInventory.SetFillColumn(
+            "ProductName",
+            200,
+            1000);
+
+        dataTableInventory.SetFixedWidth(
+            "CategoryName",
+            220,
+            220);
+
+        dataTableInventory.SetFixedWidth(
+            "Stock",
+            80,
+            80);
+
+        dataTableInventory.SetFixedWidth(
+            "Status",
+            130,
+            130);
+
+        dataTableInventory.SetFixedWidth(
+            "LastUpdated",
+            180,
+            180);
+
+        dataTableInventory.SetFixedWidth(
+            "Action",
+            90,
+            90);
+
+        Center(
+            "No",
+            "Stock",
+            "Status",
+            "LastUpdated",
+            "Action");
+
+        AlignLeft(
+            "Sku",
+            "ProductName",
+            "CategoryName");
     }
 
     private void Center(params string[] columns)
@@ -207,7 +299,12 @@ public partial class InventoryView : UserControl
 
         inventory.Stock = form.UpdatedStock;
 
-        if (_inventoryRepo.Update(inventory))
-            LoadInventory();
+        if (!_inventoryRepo.Update(inventory))
+            return;
+
+        LoadInventory();
+
+        if (FindForm() is MainForm mainForm)
+            mainForm.RefreshDashboard();
     }
 }

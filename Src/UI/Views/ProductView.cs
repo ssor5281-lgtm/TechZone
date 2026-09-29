@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using System.Globalization;
+using TechZone.Core.Enums;
 using TechZone.Core.Models;
 using TechZone.Data.Repositories;
+using TechZone.Data.Services;
 using TechZone.UI.Components;
 using TechZone.UI.Forms;
 using TechZone.UI.Forms.Create;
@@ -15,7 +16,6 @@ public partial class ProductView : UserControl
 
     private List<Product> _products = [];
     private List<Product> _filteredProducts = [];
-
     private bool _isGridView;
 
     public ProductView()
@@ -35,16 +35,28 @@ public partial class ProductView : UserControl
         object? sender,
         EventArgs e)
     {
+        ConfigureRoleAccess();
         LoadProducts();
+    }
+
+    private void ConfigureRoleAccess()
+    {
+        bool isStaff =
+            AuthService.CurrentUser?.Role == UserRole.Staff;
+
+        if (isStaff)
+        {
+            _isGridView = true;
+            btnViewSwitch.Visible = false;
+            dataTableToolbar.ShowAdd = false;
+        }
+
+        UpdateView();
     }
 
     private void LoadProducts()
     {
-        _products =
-            _productRepo
-                .GetAll()
-                .ToList();
-
+        _products = _productRepo.GetAll().ToList();
         LoadCategoryDropdown();
         ApplyFiltersAndSort();
     }
@@ -59,9 +71,7 @@ public partial class ProductView : UserControl
             .ToArray();
 
         tzDropdownButtonCategory.SetValues(
-            new[] { "All Categories" }
-                .Concat(categories)
-                .ToArray());
+            new[] { "All Categories" }.Concat(categories).ToArray());
     }
 
     private void ApplyFiltersAndSort()
@@ -75,39 +85,30 @@ public partial class ProductView : UserControl
         string category =
             tzDropdownButtonCategory.Value;
 
-        IEnumerable<Product> query =
-            _products
-                .Where(product =>
-                    string.IsNullOrWhiteSpace(search) ||
-
-                    product.Sku.Contains(
+        IEnumerable<Product> query = _products
+            .Where(product =>
+                string.IsNullOrWhiteSpace(search) ||
+                product.Sku.Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase) ||
+                product.Name.Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase) ||
+                product.CategoryName.Contains(
+                    search,
+                    StringComparison.OrdinalIgnoreCase) ||
+                product.Price.ToString(
+                    CultureInfo.InvariantCulture)
+                    .Contains(
                         search,
-                        StringComparison.OrdinalIgnoreCase)
-
-                    || product.Name.Contains(
+                        StringComparison.OrdinalIgnoreCase) ||
+                product.Stock.ToString()
+                    .Contains(
                         search,
-                        StringComparison.OrdinalIgnoreCase)
-
-                    || product.CategoryName.Contains(
-                        search,
-                        StringComparison.OrdinalIgnoreCase)
-
-                    || product.Price
-                        .ToString(
-                            CultureInfo.InvariantCulture)
-                        .Contains(
-                            search,
-                            StringComparison.OrdinalIgnoreCase)
-
-                    || product.Stock
-                        .ToString()
-                        .Contains(
-                            search,
-                            StringComparison.OrdinalIgnoreCase)
-                )
-                .Where(product =>
-                    category == "All Categories" ||
-                    product.CategoryName == category);
+                        StringComparison.OrdinalIgnoreCase))
+            .Where(product =>
+                category == "All Categories" ||
+                product.CategoryName == category);
 
         _filteredProducts = sort switch
         {
@@ -203,8 +204,12 @@ public partial class ProductView : UserControl
 
         dataTableToolbar.AddButtonX = 755;
         dataTableToolbar.AddButtonWidth = 145;
-        dataTableToolbar.AddButtonIcon = Resources.icon_product_add_white;
-        dataTableToolbar.AddButtonText = "New Product";
+
+        dataTableToolbar.AddButtonIcon =
+            Resources.icon_product_add_white;
+
+        dataTableToolbar.AddButtonText =
+            "New Product";
     }
 
     private void ConfigureViewSwitch()
@@ -292,10 +297,17 @@ public partial class ProductView : UserControl
         using var form =
             new AddProductForm();
 
-        if (form.ShowDialog(this) ==
+        if (form.ShowDialog(this) !=
             DialogResult.OK)
         {
-            LoadProducts();
+            return;
+        }
+
+        LoadProducts();
+
+        if (FindForm() is MainForm mainForm)
+        {
+            mainForm.RefreshDashboard();
         }
     }
 
@@ -317,8 +329,8 @@ public partial class ProductView : UserControl
     private void LoadCurrentPage()
     {
         int skip =
-            (dataTablePagination1.CurrentPage - 1)
-            * dataTablePagination1.PageSize;
+            (dataTablePagination1.CurrentPage - 1) *
+            dataTablePagination1.PageSize;
 
         List<Product> pageItems =
             _filteredProducts
@@ -338,7 +350,6 @@ public partial class ProductView : UserControl
         dataTableProduct.FontSize = 10F;
 
         dataTableProduct.ClearColumns();
-
         dataTableProduct.AddNumberColumn();
 
         dataTableProduct.AddTextColumn(
@@ -475,10 +486,17 @@ public partial class ProductView : UserControl
         using var form =
             new EditProductForm(product);
 
-        if (form.ShowDialog() ==
+        if (form.ShowDialog() !=
             DialogResult.OK)
         {
-            LoadProducts();
+            return;
+        }
+
+        LoadProducts();
+
+        if (FindForm() is MainForm mainForm)
+        {
+            mainForm.RefreshDashboard();
         }
     }
 
@@ -499,10 +517,7 @@ public partial class ProductView : UserControl
         if (result != DialogResult.Yes)
             return;
 
-        bool deleted =
-            _productRepo.Delete(product.Id);
-
-        if (!deleted)
+        if (!_productRepo.Delete(product.Id))
         {
             MessageBox.Show(
                 @"Failed to delete product.",
@@ -514,5 +529,10 @@ public partial class ProductView : UserControl
         }
 
         LoadProducts();
+
+        if (FindForm() is MainForm mainForm)
+        {
+            mainForm.RefreshDashboard();
+        }
     }
 }

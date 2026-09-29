@@ -123,6 +123,7 @@ public partial class AddProductForm : Form
         object? sender,
         EventArgs e)
     {
+        
         if (!ValidateInput())
             return;
 

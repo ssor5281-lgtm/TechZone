@@ -760,7 +760,6 @@ public partial class MainForm : Form
                 "Order");
         }
     }
-
     public void OpenInvoiceHistoryView()
     {
         if (_viewCache.TryGetValue(
@@ -776,6 +775,17 @@ public partial class MainForm : Form
             SetTopbar(
                 "Point of Sale",
                 "Invoice History");
+        }
+    }
+    
+    public void RefreshDashboard()
+    {
+        if (_viewCache.TryGetValue(
+                typeof(DashboardView).FullName!,
+                out UserControl? view) &&
+            view is DashboardView dashboard)
+        {
+            dashboard.RefreshData();
         }
     }
 }

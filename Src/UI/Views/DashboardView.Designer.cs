@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using TechZone.Core.Helpers;
 
 namespace TechZone.UI.Views;
 
@@ -62,8 +63,10 @@ sealed partial class DashboardView
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing && components != null)
-            components.Dispose();
+        if (disposing)
+        {
+            components?.Dispose();
+        }
 
         base.Dispose(disposing);
     }
