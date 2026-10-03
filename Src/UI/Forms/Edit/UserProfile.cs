@@ -47,9 +47,7 @@ public partial class UserProfile : Form
             _user.Role.ToString();
 
         statusLabel.Text =
-            _user.IsActive
-                ? "Active"
-                : "Inactive";
+            _user.GetUserStatus();
 
         createdLabel.Text =
             _user.CreatedAt.ToString(
@@ -170,8 +168,8 @@ public partial class UserProfile : Form
             {
                 MessageBox.Show(
                     this,
-                    "Unable to save the profile image.",
-                    "Save Failed",
+                    @"Unable to save the profile image.",
+                    @"Save Failed",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
 
@@ -235,13 +233,14 @@ public partial class UserProfile : Form
                 }
                 catch
                 {
+                    //
                 }
             }
 
             MessageBox.Show(
                 this,
-                $"Unable to save your profile.\n\n{ex.Message}",
-                "Save Failed",
+                @$"Unable to save your profile.\n\n{ex.Message}",
+                @"Save Failed",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }

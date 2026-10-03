@@ -11,5 +11,4 @@ public class Category
     ProductCount == 1
         ? $"{ProductCount}"
         : $"{ProductCount} products";
-        
 }

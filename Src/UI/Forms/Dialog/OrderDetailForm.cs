@@ -6,7 +6,7 @@ namespace TechZone.UI.Forms.Dialog;
 public partial class OrderDetailForm : Form
 {
     public OrderDetailForm(
-        Sale order,
+        Sale.Order order,
         string orderCode,
         string customer,
         string staff,
@@ -32,16 +32,16 @@ public partial class OrderDetailForm : Form
             order.PickupDate?.ToString("dd MMM yyyy") ?? "-";
 
         subtotalValueLabel.Text =
-            $"${order.SubtotalAmount:N2}";
+            $@"${order.SubtotalAmount:N2}";
 
         discountValueLabel.Text =
-            $"{order.DiscountPercent:N2}%";
+            $@"{order.DiscountPercent:N2}%";
 
         discountAmountValueLabel.Text =
-            $"${order.DiscountAmount:N2}";
+            $@"${order.DiscountAmount:N2}";
 
         totalValueLabel.Text =
-            $"${order.TotalAmount:N2}";
+            $@"${order.TotalAmount:N2}";
 
         ConfigureStatus();
     }

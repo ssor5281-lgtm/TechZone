@@ -13,4 +13,8 @@ public class User
     public string? ProfileImagePath { get; set; }
     public string Status =>
         IsActive ? "Active" : "Inactive";
+    public string GetUserStatus()
+    {
+        return IsActive ? "Active" : "Inactive";
+    }
 }

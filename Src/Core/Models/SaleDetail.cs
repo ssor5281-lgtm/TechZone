@@ -13,4 +13,17 @@ public class SaleDetail
     public decimal UnitPrice { get; set; }
 
     public decimal Discount { get; set; }
+
+    private decimal GetDiscountPrice()
+    {
+        return UnitPrice * Discount / 100;
+    }
+
+    public decimal GetTotalPrice()
+    {
+        decimal discountPrice = GetDiscountPrice();
+        decimal finalUnitPrice = UnitPrice - discountPrice;
+
+        return finalUnitPrice * Quantity;
+    }
 }

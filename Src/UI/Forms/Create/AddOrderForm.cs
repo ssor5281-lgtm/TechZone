@@ -608,7 +608,7 @@ public partial class AddOrderForm : Form
         {
             DialogResult result =
                 MessageBox.Show(
-                    $@"Are you sure you want to save order {order.OrderCode}?",
+                    $@"Are you sure you want to save order {order.GetOrderCode()}?",
                     @"Confirm Order",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
@@ -629,7 +629,7 @@ public partial class AddOrderForm : Form
                 mainForm.RefreshDashboard();
 
             MessageBox.Show(
-                $@"Order {order.OrderCode} has been saved.",
+                $@"Order {order.GetOrderCode()} has been saved.",
                 @"Order Saved",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);

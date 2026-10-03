@@ -123,7 +123,9 @@ public class SaleRepository : ISaleRepository
 
             saleCommand.Parameters.AddWithValue(
                 "@PickupDate",
-                (object?)sale.PickupDate ?? DBNull.Value);
+                sale is Sale.Order order
+                    ? (object?)order.PickupDate ?? DBNull.Value
+                    : DBNull.Value);
 
             saleCommand.Parameters.AddWithValue(
                 "@OrderNumber",
@@ -697,46 +699,56 @@ public class SaleRepository : ISaleRepository
     private static Sale MapSale(
         SqlDataReader reader)
     {
-        return new Sale
-        {
-            Id = reader.GetInt32(0),
+        int? orderNumber =
+            reader.IsDBNull(10)
+                ? null
+                : reader.GetInt32(10);
 
-            CustomerId =
-                reader.IsDBNull(1)
-                    ? null
-                    : reader.GetInt32(1),
+        Sale sale = orderNumber.HasValue
+            ? new Sale.Order
+            {
+                OrderNumber = orderNumber,
 
-            UserId =
-                reader.GetInt32(2),
+                PickupDate =
+                    reader.IsDBNull(5)
+                        ? null
+                        : reader.GetDateTime(5)
+            }
+            : new Sale
+            {
+                OrderNumber = null
+            };
 
-            TotalAmount =
-                reader.GetDecimal(3),
+        sale.Id =
+            reader.GetInt32(0);
 
-            SaleDate =
-                reader.GetDateTime(4),
+        sale.CustomerId =
+            reader.IsDBNull(1)
+                ? null
+                : reader.GetInt32(1);
 
-            PickupDate =
-                reader.IsDBNull(5)
-                    ? null
-                    : reader.GetDateTime(5),
+        sale.UserId =
+            reader.GetInt32(2);
 
-            Status =
-                Enum.Parse<SaleStatus>(
-                    reader.GetString(6)),
+        sale.TotalAmount =
+            reader.GetDecimal(3);
 
-            SubtotalAmount =
-                reader.GetDecimal(7),
+        sale.SaleDate =
+            reader.GetDateTime(4);
 
-            DiscountPercent =
-                reader.GetDecimal(8),
+        sale.Status =
+            Enum.Parse<SaleStatus>(
+                reader.GetString(6));
 
-            DiscountAmount =
-                reader.GetDecimal(9),
+        sale.SubtotalAmount =
+            reader.GetDecimal(7);
 
-            OrderNumber =
-                reader.IsDBNull(10)
-                    ? null
-                    : reader.GetInt32(10)
-        };
+        sale.DiscountPercent =
+            reader.GetDecimal(8);
+
+        sale.DiscountAmount =
+            reader.GetDecimal(9);
+
+        return sale;
     }
 }

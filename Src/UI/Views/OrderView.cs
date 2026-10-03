@@ -267,29 +267,32 @@ public partial class OrderView : UserControl
 
     private OrderRow CreateRow(Sale sale)
     {
-        Customer? customer = sale.CustomerId is { } id
+        if (sale is not Sale.Order order)
+            throw new InvalidOperationException("The sale is not an order.");
+
+        Customer? customer = order.CustomerId is { } id
             ? _customers.FirstOrDefault(x => x.Id == id)
             : null;
 
-        User? staff = _users.FirstOrDefault(x => x.Id == sale.UserId);
-        int items = _saleRepo.GetDetails(sale.Id).Sum(x => x.Quantity);
+        User? staff = _users.FirstOrDefault(x => x.Id == order.UserId);
+        int items = _saleRepo.GetDetails(order.Id).Sum(x => x.Quantity);
 
         return new OrderRow
         {
-            SaleId = sale.Id,
-            OrderNumber = sale.OrderNumber ?? 0,
-            Order = sale.OrderNumber is { } number
+            SaleId = order.Id,
+            OrderNumber = order.OrderNumber ?? 0,
+            Order = order.OrderNumber is { } number
                 ? $"ORD-{number:D5}"
                 : "-",
             Customer = customer?.Name ?? "-",
             Staff = staff?.Username ?? "-",
             ItemCount = items,
             Items = items.ToString(),
-            Total = $"${sale.TotalAmount:N2}",
-            TotalValue = sale.TotalAmount,
-            PickupDate = sale.PickupDate?.ToString("dd MMM yyyy") ?? "-",
-            PickupDateValue = sale.PickupDate ?? DateTime.MinValue,
-            Status = sale.Status == SaleStatus.Pending
+            Total = $"${order.TotalAmount:N2}",
+            TotalValue = order.TotalAmount,
+            PickupDate = order.PickupDate?.ToString("dd MMM yyyy") ?? "-",
+            PickupDateValue = order.PickupDate ?? DateTime.MinValue,
+            Status = order.Status == SaleStatus.Pending
                 ? "Pending"
                 : "Canceled"
         };
@@ -460,13 +463,19 @@ Are you sure you want to cancel this order?",
         Sale order,
         OrderRow row)
     {
+        if (order is not Sale.Order orderModel)
+        {
+            ShowNotFound();
+            return;
+        }
+
         string orderCode =
-            order.OrderNumber is { } number
+            orderModel.OrderNumber is { } number
                 ? $"ORD-{number:D5}"
                 : "-";
 
         using var form = new OrderDetailForm(
-            order,
+            orderModel,
             orderCode,
             row.Customer,
             row.Staff,

@@ -17,11 +17,20 @@ public class Inventory
     public int Stock { get; set; }
 
     public DateTime LastUpdated { get; set; }
-
+    
     public string Status =>
         Stock == 0
             ? "Out of Stock"
             : Stock <= AppSettings.LowStockThreshold
                 ? "Low Stock"
                 : "In Stock";
+
+    public string GetStatus()
+    {
+        return Stock == 0
+            ? "Out of Stock"
+            : Stock <= AppSettings.LowStockThreshold
+                ? "Low Stock"
+                : "In Stock";
+    }
 }

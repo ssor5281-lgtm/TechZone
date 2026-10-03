@@ -4,7 +4,10 @@
 #define MyAppExeName "TechZone.exe"
 
 [Setup]
-AppId={{8B0F4A9E-6C31-4D4E-A9D2-123456789000}
+AppId=AppName=MyApp
+AppVersion=1.0
+AppName=MyApp
+{{8B0F4A9E-6C31-4D4E-A9D2-123456789000}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
