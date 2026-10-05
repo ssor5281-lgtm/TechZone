@@ -49,8 +49,8 @@ public partial class OrderView : UserControl
 
             _orders =
             [
-                .. _saleRepo.GetPendingSales(),
-                .. _saleRepo.GetCancelledSales()
+                .. _saleRepo.GetPendingSales().OfType<Sale.Order>(),
+                .. _saleRepo.GetCancelledSales().OfType<Sale.Order>()
             ];
 
             ApplyFilters();

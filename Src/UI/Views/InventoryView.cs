@@ -68,12 +68,12 @@ public partial class InventoryView : UserControl
                 x.Stock.ToString().Contains(
                     search,
                     StringComparison.OrdinalIgnoreCase) ||
-                x.GetStatus().Contains(
+                x.GetStockStatus().Contains(
                     search,
                     StringComparison.OrdinalIgnoreCase))
             .Where(x =>
                 status == "All Status" ||
-                x.GetStatus() == status)
+                x.GetStockStatus() == status)
             .Where(x =>
                 category == "All Categories" ||
                 x.CategoryName == category)

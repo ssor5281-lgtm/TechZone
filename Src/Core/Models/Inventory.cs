@@ -25,7 +25,7 @@ public class Inventory
                 ? "Low Stock"
                 : "In Stock";
 
-    public string GetStatus()
+    public string GetStockStatus()
     {
         return Stock == 0
             ? "Out of Stock"
