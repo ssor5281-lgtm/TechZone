@@ -3,6 +3,7 @@
 Installer/
 .idea/
 .build/
+Asset/
 
 *.user
 *.suo
@@ -12,5 +13,3 @@ Installer/
 TestResults/
 *.log
 appsettings.json
-
-Asset/
